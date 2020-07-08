@@ -1,0 +1,77 @@
+\def\year{2019}\relax
+
+
+\documentclass[letterpaper]{article} %DO NOT CHANGE THIS
+\usepackage{times}  %Required
+\usepackage{helvet}  %Required
+\usepackage{courier}  %Required
+\usepackage{url}  %Required
+\usepackage{tikz} %Required
+\usepackage{listings}
+\usetikzlibrary{positioning,chains}
+\usepackage{caption}
+\usepackage{graphicx}  %Required
+\frenchspacing  %Required
+\setlength{\pdfpagewidth}{8.5in}  %Required
+\setlength{\pdfpageheight}{11in}  %Required
+\setcounter{secnumdepth}{0}
+\usepackage{subfigure}
+\usepackage{amsmath}
+
+\lstset{
+	numberstyle=\small,
+	numbers=left,
+	numbersep=8pt,
+	frame = single,
+	language=Python,
+	basicstyle=\footnotesize\ttfamily,breaklines=true,
+	framexleftmargin=15pt}
+
+\begin{document}
+	% The file aaai.sty is the style file for AAAI Press
+	% proceedings, working notes, and technical reports.
+	%
+	\title{CS466 Project Proposal}
+	\author{Mingkun Ni, Yuanhao Zhang\\
+		\{m8ni, y2384zha\}@uwaterloo.ca\\
+		University of Waterloo\\
+		Waterloo, ON, Canada\\
+	}
+	\maketitle
+		
+	\section{\em{Background}}
+	Hash has been a research question with a long history. The concept of hash is first used in a memo of Hans Peter Luhn in 1953 (Donald K.,2000). After the analysis of the linear probing algorithm by Donald Knuth, the analysis of hashing function becomes famous, and many talented researchers have put efforts into the development of related fields. Nowadays, hash has become not only a well-development research field but also a popular tool that is widely used in programming. Because of its wide utility, we consider it as a focus of our project.\\\\
+	\quad After reading through some related research papers, we decide to look into one of them, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper introduces two new constructions that we could guarantee $O(\log n/\log\log n)$ maximum load when throw $n$ balls into $n$ bins, but they come with either a smaller description length or a faster calculation time. The special part of this research is that it innovatively describes the structure of two constructions as a multi-layer random graph. The research considers each layer as a different hash process with different input and output sizes, which is the number of bins in each layer. Thus, we want to look deep in the first construction of this research and elaborate more details.
+	
+	\section{Plan}
+	Our research will contain 4 main sections. Section 1 will contains the introduction about the research problem including some background information and prior work contributed by other researchers. We will also introduce the construction briefly. Section 2 will list all tools that our formal proof in section 3 will needs. The formal proof of these tools will also be included. Section 3 will be the essential parts of this research: it will contain the formal introduction of our construction and a formal proof of why this construction works. In the end, Section 4 will introduce some extensional uses of this construction.\\\\
+	We plan to finish reading and collecting information about the construction and related tools before 24th July, and we will start writing our research paper right after that. We expect to finish writing the first draft before the end of 3rd Aug and the final draft before the end of 14th Aug.
+	\section{Citation}
+\begin{align*}
+	&\text{A. Pagh and R. Pagh. Uniform hashing in constant time and optimal space. SIAM}\\
+	&\text{Journal on Computing, 38(1):85–96, 2008.}\\
+&\\
+	&\text{J. Naor and M. Naor. Small-bias probability spaces: Efficient constructions and}\\
+	&\text{ applications. SIAM Journal on Computing, 22(4):838–856, 1993.}\\
+&\\
+	&\text{L. E. Celis, O. Reingold, G. Segev and U. Wieder, "Balls and Bins: Smaller Hash Families}\\
+	&\text{ and Faster Evaluation," 2011 IEEE 52nd Annual Symposium on Foundations of Computer }\\
+	&\text{ Science, Palm Springs, CA, 2011, pp. 599-608, doi: 10.1109/FOCS.2011.49.}\\
+&\\
+	&\text{M. Dietzfelbinger and F. Meyer auf der Heide. A new universal class of hash functions}\\
+	&\text{and dynamic hashing in real time. In Proceedings of the 17th International Colloquium}\\
+	&\text{on Automata, Languages and Programming, pages 6–19, 1990.}\\
+&\\
+	&\text{N. Alon, M. Dietzfelbinger, P. B. Miltersen, E. Petrank, and G. Tardos. Linear hash}\\
+	&\text{functions. Journal of the ACM, 46(5):667–683, 1999.}\\
+&\\
+	&\text{N. Alon, O. Goldreich, J. H˚astad, and R. Peralta. Simple construction of almost kwise}\\
+	&\text{ independent random variables. Random Structures and Algorithms, 3(3):289–304, 1992.}\\
+&\\
+	&\text{O. Goldreich and A. Wigderson. Tiny families of functions with random properties: A}\\
+	&\text{quality-size trade-off for hashing. Random Structures and Algorithms, 11(4):315–343,}\\
+	&\text{1997.}\\
+\end{align*}
+\end{document}
+
+	
