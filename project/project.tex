@@ -157,7 +157,7 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	Under our construction, statement 3 of Theorem 3.1 could be interpreted in following way:
 	\begin{align*}
 	&\text{For any bin in the last layer,}\\
-	& \qquad\qquad\quad\text{the maximum load of each bin is } O(\frac{\log n}{\log\log n}) \text{ with high probability.}
+	& \qquad\qquad\quad\text{the maximum load of this bin is } O(\frac{\log n}{\log\log n}) \text{ with high probability.}
 	\end{align*}
 	In what follows we provide a more formal description of our construction (see Section 3.1), and then prove Theorem 3.1 (see Section 3.2).
 	
@@ -173,7 +173,7 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	\end{enumerate}
 	 We randomly select $h_i$ from corresponding function family $\mathscr{H}_i$ for every $i\in [d]$, and generate our overall hash function f as:
 	$$f(x) = h_1(x) \circ ... \circ h_d(x),$$
-	which just simply concatenates all output of d $k_i$-wise $\delta$-dependent functions.\\\\
+	which just simply concatenates all outputs of d $k_i$-wise $\delta$-dependent functions.\\\\
 	We could visualize this construction as a reversed tree of d+1 layers. Given the sets of balls $S\subseteq[n]$, we will have:
 	\begin{align*}
 	&\text{layer 0:$\qquad$ 1 bin with }n_0 = n\\
@@ -182,14 +182,20 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	&\qquad\qquad\qquad\qquad.........\\
 	&\text{layer i:$\qquad$ }2^{\sum_{j=1}^{i}l_j}\text{ bins with }n_i = \frac{n_{i-1}}{2^{l_i}}
 	\end{align*}
-	Now, we start in layer 0 where we only have 1 bin containing all n balls. Then, we use function $h_1$ to hash all n elements into $2^{l_1}$ bins in the next layer. Now, if $h_1$ is an uniformly independent hash function, the expected number of balls in one bin in layer 1 is $\frac{n}{2^{l_1}=n_1}=\frac{n_0}{2^{l_1}}$. Then, for each bin in layer 1, we run $h_2$ on all balls inside this bin and hashed them to a unique group of $2^{l_2}$ bins from $2^{l_1+l_2}$ bins in layer 2. We repeat this step for all $2^{l_1}$ bins in layer 1. Since we expect each bin in layer 1 to have $n_1$ balls and we hash these balls to $2^{l_2}$ bins in layer 2, the expected number of balls in each bin in layer 2 is $\frac{n_1}{2^{l_1}}=n_2$ if function $h_2$ is uniformly independent. In general, level i will have $2^{\sum_{j=1}^{i}l_j}$ bins, and we will hash all balls in each bin in layer $i-1$ to $2^{l_i}$ bins in layer $i$. The expected load of each bin in layer $i$ is $n_i$.
+	Now, we start in layer 0 where we only have 1 bin containing all n balls. Then, we use function $h_1$ to hash all n elements into $2^{l_1}$ bins in the next layer. Now, if $h_1$ is an uniformly independent hash function, the expected number of balls in one bin in layer 1 is $\frac{n}{2^{l_1}=n_1}=\frac{n_0}{2^{l_1}}$. Then, for each bin in layer 1, we run $h_2$ on all balls inside this bin and hashed them to a unique group of $2^{l_2}$ bins from $2^{l_1+l_2}$ bins in layer 2. We repeat this step for all $2^{l_1}$ bins in layer 1. Since we expect each bin in layer 1 to have $n_1$ balls and we hash these balls to $2^{l_2}$ bins in layer 2, the expected number of balls in each bin in layer 2 is $\frac{n_1}{2^{l_1}}=n_2$ if function $h_2$ is uniformly independent. In general, layer i will have $2^{\sum_{j=1}^{i}l_j}$ bins, and we will hash all balls in each bin in layer $i-1$ to $2^{l_i}$ bins in layer $i$. The expected load of each bin in layer $i$ is $n_i$. Also, we could derive the relation between $n_i$ and $n$ based on previous analysis:
+$$n_i = \frac{n_{i-1}}{2^l_i} = \frac{n_{i-2}}{2^{l_i+l_{i-1}}} \Rightarrow n_i = \frac{n}{2^{\sum_{j=0}^i l_j}}$$
+On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_i = \log\frac{n}{2^{\sum_{j=0}^{d-1} l_j}} =\log n_{d-1}$$
 
  	\subsection{3.2 - Step-by-Step Proof of Theorem 3.1}
 	To proof Theroem 3.1, we first need support from following Lemma.\\
 	
 	\noindent\textbf{Lemma 3.2:} For any $i = {0,...,d-2},\alpha = \Omega(\frac1{\log\log n}), 0<\alpha_i<1$, and set $S_i\subseteq[u]$ of size at most $(1+\alpha_i)n_i$,
 	$${Pr}_{h_{i+1}\leftarrow \mathscr{H}_{i+1}}\left[\max_{y\in{0,1}^{l_{i+1}}}|h_{i+1}^{-1}(y) \cap S_i|\le(1+\alpha)(1+\alpha_i)n_{i+1}\right]> 1-\frac1{n^{c+1}}$$
-	\\
+	We could understand Lemma 3.2 in following way:
+	\begin{align*}
+	&\text{For any bin in layer $i+1$, given a set of elements $S_i$ from a bin in layer i,}\\
+	&\qquad\quad \text{Maximum Load} \le \left(1+\Omega(\frac1 {\log\log n})\right)(1+\alpha_i)n_{i+1} \text{ with high probability.}
+	\end{align*}
 	\noindent\textbf{Proof for Lemma 3.2:} \\
 	We first fix $y\in\{0,1\}^{l_{i+1}}$, let $X=|h_{i+1}^{-1}(y)\cap S|$. Assume without loss of generosity, $|S_i|\ge \lfloor (1+\alpha_i)n_i\rfloor$. If $|S_i|< \lfloor (1+\alpha_i)n_i\rfloor$, we could enlarge $S_i$ by adding dummy elements. Then, we introduce indicator random variables $X_i$ such that:
 \[ X_i=\begin{cases} 
@@ -249,8 +255,80 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	& \le \frac1{2n^{c+2}}+\frac1{2n^{c+2}}\qquad \text{by upper bound derived above}\\ 
 	& = \frac1{n^{c+2}}
 	\end{align*}
-	We have at most $2^{l_{i+1}}\le n$ different y since $2^{l_{i+1}}\le2^{\frac{\log n_{i-1}}4}\le 2^{\log n}=n$. Then, we will apply an union bound on y. Then, we will get Lemma 2.2 by subtract the union bound result from 1.$\hfill\blacksquare$ 
-	 
+	We have at most $2^{l_{i+1}}\le n$ different y since $2^{l_{i+1}}\le2^{\frac{\log n_{i-1}}4}\le 2^{\log n}=n$. Then, we will apply an union bound on y. Then, we will get Lemma 2.2 by subtract the union bound result from 1.$\hfill\blacksquare$ \\
+
+	\noindent Now we are ready to prove Theorem 3.1. We first start with the proof of the description length and evaluation time.\\
+	\noindent\textbf{Proof for Lemma 3.1(Space and Time):} \\
+	For the layer i, we have $h_i:[u]\rightarrow\{0,1\}^{l_i}$ which is a $k_i$-wise $\delta$-dependent function. Thus, we know $v = 2^{l_i}$. Combining the fact that $u = \text{poly}(u)$ and $\delta=\text{poly}(\frac1n)$, by Corollary 2.1, we know there exists a family of $k_i$-wise $\delta$-dependent functions that requires:
+\begin{align*}
+\textbf{Space} &= O(\log u+k\log v+\log(\frac1\delta))\\
+&= O(\log \text{poly}(n) + k_i\log 2^{l_i}+\log(\frac1{\text{poly}(\frac1n)}))\\
+&= O(\log \text{poly}(n) + k_il_i+\log(\frac1{\text{poly}(\frac1n)})\\
+&= O(\log \text{poly}(n) + \Theta(\log n)+\log(\frac1{\text{poly}(\frac1n)})\\
+&= O(\log n)\\
+\textbf{Time} &= O(\log u+k\log v+\log(\frac1\delta))\\
+&=  O(\log n)\text{ by the same analysis}
+\end{align*}
+The final hashing function f generates output by calculating d intermidiate hash functions $h_1,h_2,...,h_d$. Thus, with an appropriate choice of $d= O(\log\log n)$, we could describe f using $O(\log n\log\log n)$ bits and compute f in $O(\log n\log\log n)$ time.$\hfill\blacksquare$\\\\
+	Secondly, we need to limit the maximum load. We will use Lemma 3.2 to limit the maximum load in layer $i+1$ for $i\in[d-1]$ so that we could analyze the maximum load in the last layer.\\
+	\noindent\textbf{Proof for Lemma 3.1(Maximum Load):} \\
+	We fix a set $S\subseteq[u]$ of size n. We inductively argue that, for $\alpha = \Omega(\frac1{\log\log n})$:
+	$$Pr\left[\text{Maximum load in layer i per bin}\le(1+\alpha)^in_i\right]\ge1-\frac i{n^{c+1}}$$
+	The base case here is $i = 0$. In layer 0, we have only 1 bin with $n_0=n=(1+\alpha)^0n = (1+\alpha)^in_i$. Thus, the claim always holds. Now, we assume the claim holds for layer i. We apply Lemma 3.2 on each bin of layer i with $(1+\alpha_i) = (1+\alpha)^i$. Based on our interpretation and the fact that there should be no more than n bins in one layer, we know:
+\begin{align*}
+&Pr\left[ \text{number of balls in one bin of layer }i+1\le (1+\alpha)^{i+1}n_{i+1}\right] \ge 1-\frac1{n^{c+1}}\\ 
+&\Rightarrow Pr\left[ \text{number of balls in one bin of layer }i+1> (1+\alpha)^{i+1}n_{i+1}\right] \le \frac1{n^{c+1}}\\
+&\Rightarrow_{\text{Union Bound}} Pr\left[ \exists \text{ a bin whose load in layer }i+1> (1+\alpha)^{i+1}n_{i+1}\right] \le \frac n{n^{c+1}}\\
+&\Rightarrow Pr\left[ \nexists \text{ a bin whose load in layer }i+1> (1+\alpha)^{i+1}n_{i+1}\right] \ge 1-\frac n{n^{c+1}}\\
+&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\ge 1-\frac {i+1}{n^{c+1}}\\
+&\Rightarrow Pr\left[ \text{Maximum Load of layer }i+1 \text{ is } (1+\alpha)^{i+1}n_{i+1}\right] \ge 1-\frac {i+1}{n^{c+1}}\\
+\end{align*}
+Thus, the claim holds in inductive case.\\\\
+Now, we want to upper bound $n_{d-1}$ which is the expected load in layer $d-1$. By the claim of induction, we know that, with probability at least $1-\frac{d-1}{n^{c+1}}$, the maximum load of layer $d-1$ is $(1+\alpha)^{d-1}n_{d-1}\le2n_{d-1}$ for appropriate $d=O(\log\log n)$. For every $i\in[d-1]$, 
+\begin{align*}
+&\qquad l_i =\lfloor\frac{\log n_{i-1}}4\rfloor \ge \frac{\log n_{i-1}}4 -1\\
+&\Rightarrow n_i = \frac{n_{i-1}}{2^{l_i}}\le \frac{n_{i-1}}{2^{\frac{\log n_{i-1}}4 -1}} = 2\frac{n_{i-1}}{2^{\frac{\log n_{i-1}}4}}=2\frac{n_{i-1}}{n_{i-1}^{1/4}}= 2 n_{i-1}^{3/4}\\
+&\Rightarrow n_{i-1}\le 2 n_{i-2}^{3/4}\Rightarrow n_i\le 2 (2 n_{i-2}^{3/4})^{3/4}=2^{1+3/4}n_{i-2}^{(3/4)^2}\\
+&\Rightarrow_{induction} n_{i-1}\le 2^{\sum_{j=0}^{i-1}(3/4)^j}n^{(3/4)^i}<=2^4n^{(3/4)^i}=16n^{(3/4)^i}
+\end{align*}
+Thus, for an appropiate choice of $d = O(\log\log n)$, it holds $$n_{d-1}\le \log n$$
+For example, if $d = \log_{3/4}\left( \frac{\log \frac{\log n}{16}}{\log n}\right)=O(\log\log n)$,
+\begin{align*}
+n_{d-1}\le16n^{(3/4)^d}&=16n^{(3/4)^{\log_{3/4}\left( \frac{\log \frac{\log n}{16}}{\log n}\right)}}\\
+&= 16n^{\frac{\log \frac{\log n}{16}}{\log n}}\\
+&= 16n^{\log_n \frac{\log n}{16}}\\
+&= 16\times\frac{\log n}{16}\\
+&= \log n
+\end{align*}
+Thus, we could state, with probability at least $1-\frac{d-1}{n^{c+1}}$, the maximum load of layer $d-1$ is $(1+d)^{d-1}\le2n_{d-1}\le2\log n$. By the analysis on $n_i$ and $l_d$ in section 3.1, we know $l_d = \log n_{d-1}$. Thus, elements in each bin in layer $d-1$ are hashed into $2^{l_d} = 2^{\log n_{d-1}} = n_{d-1}$ bins using the function $h_d$ wich is $k_d$-wise $\delta$-dependent, where $k_d=\Omega(\frac{\log n}{\log\log n})$ and with an appropriate choice of $d=O(\log\log n)$.\\\\
+Therefore, the probability that any $t = \frac{\gamma\log n}{\log \log n}\le k_d$ elements from layer $d-1$ are hashed into any specific bin in layer d is:
+\begin{align*}
+{2n_{d-1}\choose t} \left((\frac1{n_{d-1}}^t+\delta)\right)&\le (\frac{2en_{d-1}}{t})^t\left((\frac1{n_{d-1}}^t+\delta)\right)\\
+& = (\frac{2e}t)^t+\delta\left( \frac{2en_{d-1}}{t}\right)^t\\
+& = (\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}}+\delta\left( \frac{2en_{d-1}\log\log n}{\gamma\log n}\right)^{\frac{\gamma\log n}{\log \log n}}\\
+& \le \frac1{2n^{c+3}}+\frac1{2n^{c+3}}\\
+& = \frac1{n^{c+3}}
+\end{align*}
+Reason that $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}}$ and $\delta\left( \frac{2en_{d-1}\log\log n}{\gamma\log n}\right)^{\frac{\gamma\log n}{\log \log n}}$ are less than $\frac1{2n^{c+3}}$ is simple. We will use $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}}$ as example:
+\begin{align*}
+(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}} &= (\frac{2e}{\gamma})^{\frac{\gamma\log n}{\log \log n}}(\log\log n)^{\frac{\gamma\log n}{\log \log n}}\times(\log n)^{-\frac{\gamma\log n}{\log \log n}}\\
+&= \eta(\log\log n)^{\frac{\gamma\log n}{\log \log n}}\times(\log n)^{-\frac{\gamma\log n}{\log \log n}}\quad\text{set }\eta=(\frac{2e}{\gamma})^{\frac{\gamma\log n}{\log \log n}}\\
+&=\eta (\log\log n)^{\gamma\log_{\log n} n}\times(\log n)^{-\gamma\log_{\log n} n}\\
+&= \eta (\log\log n)^{\gamma\log_{\log n} n}\times n^{-\gamma}\\
+&= O(n^{-\gamma+1})
+\end{align*}
+\textbf{\textcolor{red}{REALLY NOT SURE ABOUT THIS STATEMENT (Eric 8.9)}}
+For any $\gamma\le c+4$, we could derive the result above. As we know $k_d = \Omega(\frac{\log n}{\log log n})$ and $t = \frac{\gamma\log n}{\log\log n}$, we know $\gamma\le \frac{k_d\log\log n}{\log n} = \Omega(1)$. Thus, $\gamma\le c+4$ is within the limit, and it is possible in this situation.\\\\
+Thus, we have proved that the probablility that any $t\le k_d$ elements from layer $d-1$ are hashed into a specific bin in layer d is less than $\frac{1}{n^{c+3}}$. There exist at most $n^2$ such pair of bins exists between layer $d-1$ and layer d. Thus we could get:
+\begin{align*}
+&Pr(\text{a bin in layer d with more than t elements})\le\frac1{n^{c+1}}\\
+&\Rightarrow_{\text{Union Bound}} Pr(\exists\text{ a bin in layer d with more than t elements})\le\frac n{n^{c+1}}\\
+&\Rightarrow Pr(\nexists\text{ a bin in layer d with more than t elements})\ge 1-\frac n{n^{c+1}}\\
+&\Rightarrow Pr(\text{Maximum load of layer d is t elements})\ge 1-\frac n{n^{c+1}}\ge 1-\frac1{n^c}
+\end{align*}
+which completes the proof of Theorem 3.1.$\hfill\blacksquare$ \\
+
+
 	 \section{4 - Extension and Appendix}
 	 This section presents some extensional use and appendix. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. 
 
