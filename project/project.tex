@@ -1,6 +1,6 @@
 \def\year{2020}\relax
 
-\documentclass[letterpaper]{article} %DO NOT CHANGE THIS
+\documentclass[a4paper, english]{paper} 
 \usepackage{times}  %Required
 \usepackage{courier}  %Required
 \usepackage{url}  %Required
@@ -17,6 +17,7 @@
 \usepackage{subfigure}
 \usepackage{amsmath}
 \usepackage{mathrsfs}
+\usepackage{lipsum}
 \usepackage{amssymb}
 
 \allowdisplaybreaks
@@ -28,48 +29,58 @@
 	basicstyle=\footnotesize {\ttfamily},
 	breaklines=true,
 	framexleftmargin=10pt}
+	
+\renewenvironment{abstract}
+ {
+  \begin{center}
+  \bfseries \abstractname\vspace{-.5em}\vspace{0pt}
+  \end{center}
+  \list{}{
+    \setlength{\leftmargin}{1cm}%
+    \setlength{\rightmargin}{\leftmargin}%
+  }%
+  \item\relax}
+ {\endlist}
 
 \begin{document}
 \fontfamily{cmr}\selectfont
-\linespread{1.5}
+
 	\title{Hashing: Construction of A Hash Family With Smaller Description Length}
-	\author{Mingkun Ni, Yuanhao Zhang\\
-		\{m8ni, y2384zha\}@uwaterloo.ca\\
-		University of Waterloo\\
-		Waterloo, ON, Canada\\
+	\author{$\qquad$$\qquad$$\qquad$ Mingkun Ni, Yuanhao Zhang\\
+		$\qquad$$\qquad$$\qquad$\{m8ni, y2384zha\}@uwaterloo.ca\\
+		$\qquad$$\qquad$$\qquad$University of Waterloo\\
+		$\qquad$$\qquad$$\qquad$Waterloo, ON, Canada\\
 	}
 	\maketitle
-		
-	\section{Abstract}
-	\textbf{\textcolor{red}{TO BE UPDATED:} The following is a placeholder for abstract.(Gavin 8.9)}
-		\quad After reading through some related research papers, we decide to look into one of them, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper introduces two new constructions that we could guarantee $O(\log n/\log\log n)$ maximum load when throw $n$ balls into $n$ with either a smaller description length or a faster calculation time. It is well-known that, with high probability, a $O(\log n/\log\log n)$-wise independent hash family would guarantee max load of $O(\log n/\log\log n)$. Such $O(\log n/\log\log n)$-wise independent function can be described by $O(\log^2 n/\log\log n)$ bits, which already yields a dramatic improvement over a truly random function. This paper aims to find an even smaller description length or a faster calculation time of the function while maintaining the guarantee of $O(\log n/\log\log n)$ max load. The special part of this research, specifically about the first construction, is that it constructs an innovative structure of a multi-layer random graph. With such construction of multi-layer graph, each layer is considered as a different hash process with different input and output sizes, which is the number of bins in each layer. Thus, we want to look deep in the first construction of this research and elaborate more details.
 	
-	\newpage
-	\section{1 - Introduction}
-	A traditional analysis of randomized algorithm to map $m$ balls into $n$ bins independently and uniformly guarantees that each bin contains at most $O(\log n/\log\log n)$ balls with high probability, as known as the maximum load of the balls and bins problem. For a truly random hash function $h(x): M \rightarrow N$, it would take $O(mlogn)$ space to store it. The traditional analysis with the use of truly random hash functions is impractical in various real-world applications because of the space to store the hash functions. Hence, a weaker notion of randomness, k-wise independence, is introduced to solve this issue. It is specifically well-studied in the case of mapping $n$ balls into $n$ bins that any $O(\log n/\log\log n)$-wise independent hash families can guarantee the maximum load of $O(\log n/\log\log n)$ with high probability. \\
+	\vspace{0.3cm}
+	\begin{abstract}
+	This paper introduces and prove a new construction that could guarantee a $O(\log n/\log\log n)$ maximum load when throw $n$ balls into $n$ with a smaller description length. It is well-known that, with high probability, a traditional $O(\log n/\log\log n)$-wise independent hash family would guarantee maximum load of $O(\log n/\log\log n)$. The traditional analysis of $O(\log n/\log\log n)$-wise independent function can be described by $O(\log^2 n/\log\log n)$ bits, which already yields a dramatic improvement over a truly random function. This paper aims to find an even smaller description length of a specific hash family while maintaining the guarantee of $O(\log n/\log\log n)$ max load. The special part of this research, specifically about the construction, is that it constructs an innovative structure of a multi-layer random graph. With such construction of multi-layer graph, each layer is considered as a different hash process with different input and output sizes, which is the number of bins in each layer.
+	\end{abstract}
+	\vspace{0.3cm}
+	\section{1. $\qquad$ Introduction}
+	A traditional analysis of randomized algorithm of the Balls and Bins problem maps $m$ balls into $n$ bins independently and uniformly guarantees that each bin contains at most $O(\log n/\log\log n)$ balls with high probability, as known as the maximum load of the balls and bins problem. For a truly random hash function $h(x): M \rightarrow N$, it would take $O(mlogn)$ space to store it. The traditional analysis with the use of truly random hash functions is impractical in various real-world applications because of the space to store the hash functions. Hence, a weaker notion of randomness, k-wise independence, is introduced to solve this issue. It is specifically well-studied in the case of mapping $n$ balls into $n$ bins that any $O(\log n/\log\log n)$-wise independent hash families can guarantee the maximum load of $O(\log n/\log\log n)$ with high probability. \\
 	\indent This paper will continue to study the problems of mapping $n$ balls into $n$ bins with a construction of hash functions that require a smaller description length given the inspiration from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. By using a $O(\log n/\log\log n)$-wise independent hash families, the hash functions can be described by $O(\log^2 n/\log\log n)$ bits, which itself yields a dramatic improvement over the description length of a truly random functions. We would like to provide an explicit family of hash functions to guarantee the same maximum load of $O(\log n/\log\log n)$ with high probability, and each hash function can be strictly described by $o(\log^2 n/\log\log n)$ bits. We provide an overview of the construction below.   \\
 	
-	\subsection{1.1 - Construction: \textcolor{red}{COPIED AND PASTED(Gavin 8.9)}}
-	Our construction is based on concatenating the outputs of $O(log log n)$ functions which are gradually more independent: each function $f$ in our construction is described using d functions 
-	$$f(x) = h_1(x) \circ ... \circ h_d(x),$$
-	where we view the output of each $h_i$ as a binary string, and a $\circ$ denotes the concatenation operator on binary strings. The first function $h_1$ is only $O(1)$-wise independent, and the level of independence gradually increases to $O(log n/ log log n)$-wise independence for the last function $h_d$. As we increase the level of independence, we decrease the output length of the functions from $\Omega(log n)$ bits for $h_1$ to $O(log log n)$ bits for $h_d$. We instantiate these $O(log log n)$ functions using $\epsilon$-biased distributions. The trade-off between the level of independence and the output length implies that each of these functions can be described using only $O(log n)$ bits and evaluated in time $O(log n)$. \\
+	\subsection{1.1 - Construction:}
+	This construction, obtained from the paper  titled \textit{Ball and bins: smaller hash families and faster evaluation}, concatenates the output of  $O(log log n)$ functions. Each function $f(x)$ is described using $O(logn loglogn)$ bits, which is significantly smaller than the traditional method. Moreover, we can still guarantee the maximum load of $O(log n/ log log n)$ with high probability for each randomly selected function.
+			$$f(x) = h_1(x) \circ ... \circ h_d(x),$$
+	For each hash function, $h_i(x)$, the output is a binary string, and $\circ$ denotes the concatenation operator on binary strings. The first function $h_1(x)$ is $O(1)$-wise independent. The level of independence gradually increases to $O(log n/ log log n)$-wise independence for the last function $h_d(x)$. Similarly, the output length of the functions decrease from $\Omega(logn)$ bits for $h_1$ to $\Omega(loglogn)$ bits for $h_d$. We will prove in Section 3.1 and Section 3.2 that this construction suffice the requirement of keeping the maximum load with smaller description length of the hash family. \\
 	
 	\subsection{1.2 - Contribution:} 
 	We note that the above construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper was written to fully understand the construction presented in Section 1.1. This construction was the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. This paper will present a full and complete tour guide in understanding that this construction indeed guaranteed the same maximum load with a smaller description length. In the original paper, proofs of many lemmas and theorems are neglected. We have expanded many of lemmas and theorems given in the original paper with elaboration and proofs. \\
 		
 	\subsection{1.3 - Outline:} 
-	In Section 2, we will introduce a few pieces of terminology, definitions, lemmas, and theorems that we will be using in latter sections. Section 3 is the essential part of this research paper. It will contain the formal introduction of our construction and formal proof of why this construction works. It will first give a formal description of the construction, and we will be analyzing the construction in which we will be essentially explaining the interpretation of such construction. Finally, we will prove step-by-step that the construction guarantees the description length of hashing functions. Finally, Section 4 will introduce some extensional use of this construction. It will also analyze this construction with correspondence to the trade-off it makes to obtain the smaller description length of the function. \\\\
+	In Section 2, we will introduce a few pieces of terminology, definitions, lemmas, and theorems that we will be using in latter sections. Section 3 is the essential part of this research paper. It will contain the formal introduction of our construction and formal proof of why this construction works. It will first give a formal description of the construction, and we will be analyzing the construction in which we will be essentially explaining the interpretation of such construction. Finally, we will prove step-by-step that the construction guarantees the description length of hashing functions. Finally, Section 4 will introduce some extensional use of this construction. It will also analyze this construction with correspondence to the trade-off it makes to obtain the smaller description length of the function. \\
 	
-	\section{2 - Preliminary Tools}
+	\section{2. $\qquad$ Preliminaries}
 	In this section, we present the relevant definitions, lemmas, theorems that we will use to prove the construction.  \\
 	
 	\subsection{2.1 - Definitions:}
-	 \textcolor{red}{GIVE EXAMPLE to differentiate from original paper like item 6(Gavin 8.9)} \\
-	\textcolor{red}{FINISHed basic definition, need example(Eric 8.9)} \\
 	We use the unit RAM model throughout the paper. In the RAM model, we assume that we can access an arbitrary position of an array in $O(1)$ time. We also assume that word size is large enough such that it takes $O(1)$ word oepration. For the balls and bins problem, we are considering the case where there are exactly $n$ balls and $n$ bins. We want to achieve a maximum load of $O(log n/ log log n)$ with smaller than usual description length under this condition. The following are some definitions and terms that we will be using frequently throughout the paper.
 	\begin{enumerate}
-	\item We set $\log$ to be base-2 as default if no base is noted. 
-	\item For a natural number u, we define the set of integers $\{1, 2, ..., n\}$ as [u].  
+	\item We set $\log$ to be base of 2 as default if no base is specified. 
+	\item For a natural number u, we define the set of integers $\{1, 2, ..., u\}$ as [u].  For example, [5] = $\{1,2,3,4,5\}$.
 	\item We represent a uniform distribution over the set $\{0, 1\}^n$ by $U_n$.
 	\item The term $x \in X$ represents a sample $x$ from a random variable $X$.
 	\item  $SD(X, Y)$ represents the statistical distance between two random variables over finite domain
@@ -82,21 +93,20 @@
 	\subsection{2.2 - More Definitions:}
 	We present a few more definitions. These definitions are more complicated but essential to understanding the proof the construction. \\
 	
-	\noindent\textbf{k-wise $\delta$-dependent:}
-	For a family of function f:$[u]\rightarrow[v]$, it is k-wise $\delta$-dependent iff
-$$SD(X,Y)\le \delta$$
-for $X=$distribution $(f(x_1),f(x_2),...,f(x_k))$ for any distinct $x_1,x_2,...,x_k\in[u]$ and $Y=$ uniform distribution over $[v]^k$.
+	\noindent\textbf{Definition 2.2.1:} 
+	For a family of function f:$[u]\rightarrow[v]$, it is defined as  a k-wise $\delta$-dependent iff
+		$$SD(X,Y)\le \delta$$
+	For $X= $ distribution $(f(x_1),f(x_2),...,f(x_k))$ for any distinct $x_1,x_2,...,x_k\in[u]$ and $Y=$ uniform distribution over $[v]^k$.
 	It will take $O(k\max\{\log u, \log v\})$ bits to describe f and $O(k)$ times to calculate f in the unit RAM model.\\
 
-	\noindent\textbf{$\epsilon$-biased distribution:}
-	A sequence of random variables $X_1,X_2,...,X_n$ over $\{0,1\}$ are $\epsilon$-biased if, for any non-empty set $S\subseteq [n]$,
+	\noindent\textbf{Definition 2.2.2: }
+	A sequence of random variables $X_1,X_2,...,X_n$ over $\{0,1\}$ are $\epsilon$-biased distribution if, for any non-empty set $S\subseteq [n]$,
 	$$|Pr(\oplus_{i\in S} X_i = 1)-Pr(\oplus_{i\in S} X_i = 0)|\le \epsilon$$
 	
-	\textcolor{red}{DELETE DEFINITION OF min-entropy , k-source, and any block source since we are not using them(Eric 8.9)}\\
-	Following definitions will be used to prove the existance of an $\epsilon$-biased distirbution used in the proof of our construction. This $\epsilon$-biased distirbution is based on the work did by Alon et al.included in the paper titled \textit{Simple Constructions of Almost k-wise Independent Random Variables}(Alon et al., 2002)\\
+	\noindent Note that the following definitions will be used to understand and prove Definition 2.2.2, which is $\epsilon$-biased distribution. It's important to fully understand the definition and derivation of $\epsilon$-biased distribution because it is used in the proof of our construction. This $\epsilon$-biased distribution is based on the work did by Alon et al. included in the paper titled \textit{Simple Constructions of Almost k-wise Independent Random Variables}(Alon et al., 2002)\\
 
 	\noindent\textbf{Almost k-wise independence:}
-	Let $S_n$ be a sample space and $X=x_1...x_n$ be selected uniformly from $S_n$
+	Let $S_n$ be a sample space and $X=\{x_1...x_n\}$ be selected uniformly from $S_n$
 	\begin{enumerate}
 	\item $S_n$ is  \textbf{$(\epsilon,k)$-independent (in max form)} if for any k positions $i_1<i_2<...<i_k$ and any $k$-bit string $\alpha$, we have
 		$$|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}|\le \epsilon$$
@@ -105,7 +115,7 @@ for $X=$distribution $(f(x_1),f(x_2),...,f(x_k))$ for any distinct $x_1,x_2,...,
 	\end{enumerate}
 	Clearly, we could transfer from these two definitions of almost k-wise independence:
 	\begin{enumerate}
-	\item $S_n$ is  \textbf{$(\epsilon,k)$-independent (in max form)}.Then, since there are at most $2^k$ different $\alpha$, we could state this equations:
+	\item $S_n$ is  \textbf{$(\epsilon,k)$-independent (in max form)}. Then, since there are at most $2^k$ different $\alpha$, we could state this equations:
 $$|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}|\le \epsilon \Rightarrow \sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le 2^k\epsilon$$
 	Thus, $S_n$ is at most \textbf{$2^k\epsilon$-away} from k-wise independence.
 	\item $S_n$ is \textbf{$\epsilon$-away (in $L_1$ form)} for $k$-wise independence. Then, we could simply state that:
@@ -134,17 +144,41 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	\subsection{2.3 - Theorems:}
 	In this section, we can present the key lemmas, corollaries, and theorems that we use to prove the construction. Refer to Section 2.1 and Section 2.2 if encountering unknown definitions. \\
 	
-	\noindent\textbf{Corollary 2.1:} There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. \\
+	\noindent\textbf{Corollary 2.0 (Vazirani):} Let $S_n \in \{0, 1\}^n$ be a sample space that is $\epsilon$-biased with respect to linear tests. Then, we have for every k, the sample space $S_n$ is $((1-2^{-k})\epsilon, k)$-independent (in max norm), and $(2^k-1)^{1/2}\epsilon$-away  in ($L_1$ norm) from k-wise independence. \\
 	
+	\noindent\textbf{Corollary 2.1:} For any integers a and integer b such that b is a power of 2, there exists a family of k-wise $\delta$-dependent function $f$ that maps from [a] to [b], that is $f: [a] \rightarrow [b]$. This function can be described by $O(loga + klogb+ log(1/\delta))$ bits. More importantly, in the RAM model, if a word size is $O(loga + klogb+ log(1/\delta))$, then this function can be evaluated in $O(loga + klogb+ log(1/\delta))$ time. \\
 	
-	\noindent\textbf{Corollary 2.2:} There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. \\
+	\noindent\textbf{Proof for Corollary 2.1:}
+	According to Alon et al.'s paper, he has constructed an $\epsilon$-biased distribution over the space $\{0, 1\}^n$ where we can describe each point $x \in \{0, 1\}^n$ in the sample space by using $O(log(n/\epsilon))$ bits. More importantly, in the RAM model, each word of word size $O(log(n/\epsilon))$ can be computed in time $O(log(n/\epsilon))$. Using the fact that for any k, an $\epsilon$-biased distribution is a k-wise $\delta$-dependent distribution with $\delta = \epsilon 2^{k/2}$ by Corollary 2.0 (Vazirani). We can substitute the word size to be $O(loga + klogb+ log(1/\delta))$, hence, we have proven the Corollary 2.1.  $\qquad$ $\hfill\blacksquare$ \\
 	
-	\noindent\textbf{Lemma 2.3:} There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. \\
+	\noindent\textbf{Lemma 2.2 (First t-wise Independent Tail Inequality):} Let $t \ge 4$ be an even integer, Suppose $X_1, ..., X_n$ are t-wise independent random variables taking values in [0, 1]. Let $X = \sum_{i \in n} X_i$ and $\mu = E[x]$, then we have for A > 0,
+	$$Pr[|X-\mu| \ge A] \le C_t (\frac{nt}{A^2})^{t/2}$$
 	
-	\noindent\textbf{Corollary 2.4:} There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. \\
-	
-	
-	\section{3 - Construction}
+	\noindent\textbf{Lemma 2.3:} Define n random variables, $X_1$, ..., $X_n$ $\in \{0, 1\}$ be 2k-wise $\delta$-dependent random variables, for some $k \in \mathbb{N}$ and for some $0 \le \delta < 1$. We represent $X = \sum_{i \in n} X_i$  and $\mu = E[X]$. Then for any $t > 0$, we have that:
+	$$ Pr[|X - \mu| > t] \le 2(\frac{2nk}{t^2})^k + \delta(\frac{n}{t})^{2k} $$
+	 \noindent\textbf{Proof for Lemma 2.3:} Apply Markov's Inequality, we obtain that
+	 \begin{align*}
+	 	Pr\left[|X - \mu| > t\right]  &\le Pr\left[\left(X - \mu\right)^{2k} > t^{2k}\right]\\
+	 	& \le \frac{E[(X-\mu)^{2k}]}{t^{2k}}
+	\end{align*}
+	We consider the term $E[X-\mu]=\sum_{i\in[n]} E[X_i - \mu_i]$ for $\mu_i = E[X_i]$, and we know that for 
+	$$E[(X-\mu)^2] = \sum_{i \in [n]} \sum_{j \in [n]} E[(X_{ij} - \mu_{ij})^2]=\sum_{i_1, i_2 \in [n]} E[\Pi_{j \in [2]}(X_{i_j}-\mu_{i_j})]$$
+	Then similarly, we can prove that 
+	$$E[(X-\mu)^{2k}] = \sum_{i_1, i_2, ..., i_{2k} \in [n]} E[\Pi_{j \in [2k]}(X_{i_j}-\mu_{i_j})]$$
+	Return back to the proof above, we know that 
+	\begin{align*}
+	 	Pr\left[|X - \mu| > t\right]  & \le \frac{E[(X-\mu)^{2k}]}{t^{2k}} \\
+		&= \frac{\sum_{i_1, i_2, ..., i_{2k} \in [n]} E[\Pi_{j \in [2k]}(X_{i_j}-\mu_{i_j})]}{t^{2k}} \\
+		& \text{we know that $\delta \ge 0$, $n \ge 0$, and $k \ge 0$} \\
+		& \le \frac{\sum_{i_1, i_2, ..., i_{2k} \in [n]} E[\Pi_{j \in [2k]}(\hat{X}_{i_j}-\mu_{i_j})] + \delta n^{2k}}{t^{2k}} \\
+		& = \frac{E[(\hat{X}-\mu)^{2k}] + \delta n^{2k}}{t^{2k}}
+	 \end{align*}
+	 For every $\hat{X_i}$ for $i \in [n]$, $\hat{X}_i$ are independent random variables that have the same marginal distribution $X_1, ..., X_n$. In addition, we apply Lemma 2.2 (First t-wise Independent Tail Inequality) here, which is the following: 
+	 $$ Pr[(\hat{X}-\mu) > A) \le \frac{E[(\hat{X}-\mu)^t]}{A^t} \le C_t \times (\frac{n^t}{A^2})^{t/2} $$ 
+	 Substituting t into A, we will obtain that
+	 $$ Pr[|X - \mu| > t] \le \frac{E[(\hat{X}-\mu)^{2k}] + \delta n^{2k}}{t^{2k}} \le 2(\frac{2nk}{t^2})^k + \delta (\frac{n}{t})^2k \qquad \hfill\blacksquare$$ 
+		
+	\section{3. $\qquad$ Construction}
 	In this section, we will first present the construction, mentioned in Section 1.1, based on the gradually increasing independence. This construction will guarantee a maximum load of  $O(\log n/\log\log n)$ using $O(\log n/\log\log n)$ with a smaller description length. This constructions allows us to prove the following theorem: \\
 	
 	\noindent\textbf{Theorem 3.1:} For any constant $c>0$, integers $n$ and $u=\text{poly}(n)$, there exists a family  $\mathscr{F}$ of $f:[u]\rightarrow[v]$ such that:
@@ -162,8 +196,6 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	In what follows we provide a more formal description of our construction (see Section 3.1), and then prove Theorem 3.1 (see Section 3.2).
 	
 	\subsection{3.1 - Formal Description of Construction}
-	\textcolor{red}{COPIED AND PASTED(Gavin 8.9)}. \\
-	\textcolor{red}{Add modification from note (Eric 8.9)}. \\
 	There are two cases about n: whether n is a power of 2 or not. We only consider the case that $n=2^k$ since we could set the number of bins to be $m = 2^{\lfloor\log_2n\rfloor}$ and the influence on maximum load will only be at most a factor of two. Let $d=O(\log\log n)$, and for every $i\in [d]$, let $\mathscr{H}_i$ be a family of $k_i$-wise $\delta$-dependent functions $[u]\rightarrow{0,1}^{l_i}$, where:
 	\begin{enumerate}
 		\item $n_0 = n, n_i = \frac{n^{i-1}}{2^{l_i}}$ $\forall i\in [d]$
@@ -205,7 +237,7 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 \]
 	Thus, we could rewrite X as the sum of $X_i$ and, if $h_{i+1}$ is uniformly independent, the expectation of X will become:
 	$$E[X] = \sum_j^{|S_i|}E[X_j]=\sum_j^{|S_i|}\frac1{2^{l_{i+1}}} = \frac{|S_i|}{2^{l_{i+1}}}$$
-	However, since our function $h_{i+1}$ is $k_{i+1}$-wise $\delta$-dependent, $X=$ sum of $|S_i|$ $k_{i+1}$-wise $\delta$-dependent random variables. Then, we could directly apply Lemma 2.2 with $k = \frac{k_{i+1}}2$ and $\mu =E[X]=\frac{|S_i|}{2^{l_{i+1}}}$,
+	However, since our function $h_{i+1}$ is $k_{i+1}$-wise $\delta$-dependent, $X=$ sum of $|S_i|$ $k_{i+1}$-wise $\delta$-dependent random variables. Then, we could directly apply \textbf{Lemma 2.3} with $k = \frac{k_{i+1}}2$ and $\mu =E[X]=\frac{|S_i|}{2^{l_{i+1}}}$,
 	\begin{align*}
 	Pr[X>(1+\alpha)\mu] &\le 2\left(\frac{|S_i|k_{i+1}}{(\alpha\mu)^2}\right)^{\frac{k_{i+1}}2}+\delta\left( \frac{|S_i|}{\alpha\mu}\right)^{\frac{k_{i+1}}2}\\
 	&= 2\left(\frac{|S_i|k_{i+1}}{\alpha^2 \frac{|S_i|^2}{2^{2l_{i+1}}}}\right)^{\frac{k_{i+1}}2} +\delta\left( \frac{|S_i|}{\alpha\frac{|S_i|}{2^{l_{i+1}}}}\right)^{\frac{k_{i+1}}2}\quad\text{since }\mu =\frac{|S_i|}{2^{l_{i+1}}}\\
@@ -258,7 +290,8 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 	We have at most $2^{l_{i+1}}\le n$ different y since $2^{l_{i+1}}\le2^{\frac{\log n_{i-1}}4}\le 2^{\log n}=n$. Then, we will apply an union bound on y. Then, we will get Lemma 2.2 by subtract the union bound result from 1.$\hfill\blacksquare$ \\
 
 	\noindent Now we are ready to prove Theorem 3.1. We first start with the proof of the description length and evaluation time.\\
-	\noindent\textbf{Proof for Lemma 3.1(Space and Time):} \\
+	
+	\noindent\textbf{Proof for Theorem 3.1(Space and Time):} \\
 	For the layer i, we have $h_i:[u]\rightarrow\{0,1\}^{l_i}$ which is a $k_i$-wise $\delta$-dependent function. Thus, we know $v = 2^{l_i}$. Combining the fact that $u = \text{poly}(u)$ and $\delta=\text{poly}(\frac1n)$, by Corollary 2.1, we know there exists a family of $k_i$-wise $\delta$-dependent functions that requires:
 \begin{align*}
 \textbf{Space} &= O(\log u+k\log v+\log(\frac1\delta))\\
@@ -271,7 +304,8 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 \end{align*}
 The final hashing function f generates output by calculating d intermidiate hash functions $h_1,h_2,...,h_d$. Thus, with an appropriate choice of $d= O(\log\log n)$, we could describe f using $O(\log n\log\log n)$ bits and compute f in $O(\log n\log\log n)$ time.$\hfill\blacksquare$\\\\
 	Secondly, we need to limit the maximum load. We will use Lemma 3.2 to limit the maximum load in layer $i+1$ for $i\in[d-1]$ so that we could analyze the maximum load in the last layer.\\
-	\noindent\textbf{Proof for Lemma 3.1(Maximum Load):} \\
+	
+	\noindent\textbf{Proof for Theorem 3.1(Maximum Load):} \\
 	We fix a set $S\subseteq[u]$ of size n. We inductively argue that, for $\alpha = \Omega(\frac1{\log\log n})$:
 	$$Pr\left[\text{Maximum load in layer i per bin}\le(1+\alpha)^in_i\right]\ge1-\frac i{n^{c+1}}$$
 	The base case here is $i = 0$. In layer 0, we have only 1 bin with $n_0=n=(1+\alpha)^0n = (1+\alpha)^in_i$. Thus, the claim always holds. Now, we assume the claim holds for layer i. We apply Lemma 3.2 on each bin of layer i with $(1+\alpha_i) = (1+\alpha)^i$. Based on our interpretation and the fact that there should be no more than n bins in one layer, we know:
@@ -317,7 +351,6 @@ Reason that $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log 
 &= \eta (\log\log n)^{\gamma\log_{\log n} n}\times n^{-\gamma}\\
 &= O(n^{-\gamma+1})
 \end{align*}
-\textbf{\textcolor{red}{REALLY NOT SURE ABOUT THIS STATEMENT (Eric 8.9)}}
 For any $\gamma\le c+4$, we could derive the result above. As we know $k_d = \Omega(\frac{\log n}{\log log n})$ and $t = \frac{\gamma\log n}{\log\log n}$, we know $\gamma\le \frac{k_d\log\log n}{\log n} = \Omega(1)$. Thus, $\gamma\le c+4$ is within the limit, and it is possible in this situation.\\\\
 Thus, we have proved that the probablility that any $t\le k_d$ elements from layer $d-1$ are hashed into a specific bin in layer d is less than $\frac{1}{n^{c+3}}$. There exist at most $n^2$ such pair of bins exists between layer $d-1$ and layer d. Thus we could get:
 \begin{align*}
@@ -328,13 +361,20 @@ Thus, we have proved that the probablility that any $t\le k_d$ elements from lay
 \end{align*}
 which completes the proof of Theorem 3.1.$\hfill\blacksquare$ \\
 
+Since we have proven Theorem 3.1, it implies that with high probability at least $1-d/n^{c+1} > 1-1/n^c$, a randomly selected function from the hash family from our construction has a maximum load of $O(logn/loglogn)$ while guaranteeing each function can be described in $o(log^2 n/loglogn)$. 
 
-	 \section{4 - Extension and Appendix}
-	 This section presents some extensional use and appendix. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. 
 
-	
+	 \section{4. $\qquad$ Extension and Appendix}
+	 This section presents some extensional use and appendix. Since we have proven that this construction does provide the benefit it claims, we can employ this construction for storing elements using linear probing. More importantly, it also guarantees the maximum load that all other hash families provide. Existing algorithms put more of their focus on simplicity and fast computation, while this construction gives a much better description length of the hash family while sacrificing the simplicity factor.
+	 
+	 \subsection{Augmenting The Construction with k-wise Independent} 
+	 We can update the construction to offer $O(loglogn$-wise independence without affecting the benefits it offer, which is the description length of the hash family. According to L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder, this is especially useful in the case of any application that involves tail bounds for limited independence. For example, if for a function $f$ built from thsi construction, we can modify it to be $f(x)+h(x)modn$ easily where $h(x)$ is sampled from a family of $O(loglogn)$-wise independent hash functions. 
+	 
+	 \subsection{Acknowledge} 
+	 This construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper was written to fully understand the construction presented in Section 1.1. This construction was the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. 	
+	 
 	\newpage
-	\section{References}
+	\section{6. $\qquad$ References}
 \begin{align*}
 	[1]&\text{ L. E. Celis, O. Reingold, G. Segev and U. Wieder, "Balls and Bins: Smaller Hash Families}\\
 	&\text{ and Faster Evaluation," 2011 IEEE 52nd Annual Symposium on Foundations of Computer }\\
@@ -359,6 +399,10 @@ which completes the proof of Theorem 3.1.$\hfill\blacksquare$ \\
 	[7]&\text{ O. Goldreich and A. Wigderson. Tiny families of functions with random properties: A}\\
 	&\text{quality-size trade-off for hashing. Random Structures and Algorithms, 11(4):315–343,}\\
 	&\text{1997.}\\
+&\\
+	[8]&\text{ M. Bellare and J. Rompel. Randomness-efficient oblivious sampling. In Proceedings} \\
+	&\text{of the 35th Annual IEEE Symposium on Foundations of Computer Science, pages 276–287,}\\
+	&\text{1994.}
 \end{align*}
 \end{document}
 
