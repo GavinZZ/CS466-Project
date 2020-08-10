@@ -367,14 +367,14 @@ Since we have proven Theorem 3.1, it implies that with high probability at least
 	 \section{4. $\qquad$ Extension and Acknowledgement}
 	 This section presents some extensional use and appendix. Since we have proven that this construction does provide the benefit it claims, we can employ this construction for storing elements using linear probing. More importantly, it also guarantees the maximum load that all other hash families provide. Existing algorithms put more of their focus on simplicity and fast computation, while this construction gives a much better description length of the hash family while sacrificing the simplicity factor.
 	 
-	 \subsection{Augmenting The Construction with k-wise Independent} 
+	 \subsection{4.1 - Augmenting The Construction} 
 	 We can update the construction to offer $O(loglogn$-wise independence without affecting the benefits it offer, which is the description length of the hash family. According to L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder, this is especially useful in the case of any application that involves tail bounds for limited independence. For example, if for a function $f$ built from this construction, we can modify it to be $(f(x)+h(x))$modn easily where $h(x)$ is sampled from a family of $O(loglogn)$-wise independent hash functions. 
 	 
-	 \subsection{Acknowledge} 
+	 \subsection{4.2 - Acknowledge} 
 	 This construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper was written to fully understand the construction presented in Section 1.1. This construction was the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. 	
 	 
 	\newpage
-	\section{6. $\qquad$ References}
+	\section{5. $\qquad$ References}
 \begin{align*}
 	[1]&\text{ L. E. Celis, O. Reingold, G. Segev and U. Wieder, "Balls and Bins: Smaller Hash Families}\\
 	&\text{ and Faster Evaluation," 2011 IEEE 52nd Annual Symposium on Foundations of Computer }\\
