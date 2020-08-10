@@ -144,19 +144,19 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	\subsection{2.3 - Theorems:}
 	In this section, we can present the key lemmas, corollaries, and theorems that we use to prove the construction. Refer to Section 2.1 and Section 2.2 if encountering unknown definitions. \\
 	
-	\noindent\textbf{Corollary 2.0 (Vazirani):} Let $S_n \in \{0, 1\}^n$ be a sample space that is $\epsilon$-biased with respect to linear tests. Then, we have for every k, the sample space $S_n$ is $((1-2^{-k})\epsilon, k)$-independent (in max norm), and $(2^k-1)^{1/2}\epsilon$-away  in ($L_1$ norm) from k-wise independence. \\
+	\noindent\textbf{Corollary 2.3.1 (Vazirani):} Let $S_n \in \{0, 1\}^n$ be a sample space that is $\epsilon$-biased with respect to linear tests. Then, we have for every k, the sample space $S_n$ is $((1-2^{-k})\epsilon, k)$-independent (in max norm), and $(2^k-1)^{1/2}\epsilon$-away  in ($L_1$ norm) from k-wise independence. \\
 	
-	\noindent\textbf{Corollary 2.1:} For any integers a and integer b such that b is a power of 2, there exists a family of k-wise $\delta$-dependent function $f$ that maps from [a] to [b], that is $f: [a] \rightarrow [b]$. This function can be described by $O(loga + klogb+ log(1/\delta))$ bits. More importantly, in the RAM model, if a word size is $O(loga + klogb+ log(1/\delta))$, then this function can be evaluated in $O(loga + klogb+ log(1/\delta))$ time. \\
+	\noindent\textbf{Corollary 2.3.2:} For any integers a and integer b such that b is a power of 2, there exists a family of k-wise $\delta$-dependent function $f$ that maps from [a] to [b], that is $f: [a] \rightarrow [b]$. This function can be described by $O(loga + klogb+ log(1/\delta))$ bits. More importantly, in the RAM model, if a word size is $O(loga + klogb+ log(1/\delta))$, then this function can be evaluated in $O(loga + klogb+ log(1/\delta))$ time. \\
 	
-	\noindent\textbf{Proof for Corollary 2.1:}
-	According to Alon et al.'s paper, he has constructed an $\epsilon$-biased distribution over the space $\{0, 1\}^n$ where we can describe each point $x \in \{0, 1\}^n$ in the sample space by using $O(log(n/\epsilon))$ bits. More importantly, in the RAM model, each word of word size $O(log(n/\epsilon))$ can be computed in time $O(log(n/\epsilon))$. Using the fact that for any k, an $\epsilon$-biased distribution is a k-wise $\delta$-dependent distribution with $\delta = \epsilon 2^{k/2}$ by Corollary 2.0 (Vazirani). We can substitute the word size to be $O(loga + klogb+ log(1/\delta))$, hence, we have proven the Corollary 2.1.  $\qquad$ $\hfill\blacksquare$ \\
+	\noindent\textbf{Proof for Corollary 2.3.2:}
+	According to Alon et al.'s paper, he has constructed an $\epsilon$-biased distribution over the space $\{0, 1\}^n$ where we can describe each point $x \in \{0, 1\}^n$ in the sample space by using $O(log(n/\epsilon))$ bits. More importantly, in the RAM model, each word of word size $O(log(n/\epsilon))$ can be computed in time $O(log(n/\epsilon))$. Using the fact that for any k, an $\epsilon$-biased distribution is a k-wise $\delta$-dependent distribution with $\delta = \epsilon 2^{k/2}$ by Corollary 2.0 (Vazirani). We can substitute the word size to be $O(loga + klogb+ log(1/\delta))$, hence, we have proven the Corollary 2.3.2.  $\qquad$ $\hfill\blacksquare$ \\
 	
-	\noindent\textbf{Lemma 2.2 (First t-wise Independent Tail Inequality):} Let $t \ge 4$ be an even integer, Suppose $X_1, ..., X_n$ are t-wise independent random variables taking values in [0, 1]. Let $X = \sum_{i \in n} X_i$ and $\mu = E[x]$, then we have for A > 0,
+	\noindent\textbf{Lemma 2.3.3 (First t-wise Independent Tail Inequality):} Let $t \ge 4$ be an even integer, Suppose $X_1, ..., X_n$ are t-wise independent random variables taking values in [0, 1]. Let $X = \sum_{i \in n} X_i$ and $\mu = E[x]$, then we have for A > 0,
 	$$Pr[|X-\mu| \ge A] \le C_t (\frac{nt}{A^2})^{t/2}$$
 	
-	\noindent\textbf{Lemma 2.3:} Define n random variables, $X_1$, ..., $X_n$ $\in \{0, 1\}$ be 2k-wise $\delta$-dependent random variables, for some $k \in \mathbb{N}$ and for some $0 \le \delta < 1$. We represent $X = \sum_{i \in n} X_i$  and $\mu = E[X]$. Then for any $t > 0$, we have that:
+	\noindent\textbf{Lemma 2.3.4:} Define n random variables, $X_1$, ..., $X_n$ $\in \{0, 1\}$ be 2k-wise $\delta$-dependent random variables, for some $k \in \mathbb{N}$ and for some $0 \le \delta < 1$. We represent $X = \sum_{i \in n} X_i$  and $\mu = E[X]$. Then for any $t > 0$, we have that:
 	$$ Pr[|X - \mu| > t] \le 2(\frac{2nk}{t^2})^k + \delta(\frac{n}{t})^{2k} $$
-	 \noindent\textbf{Proof for Lemma 2.3:} Apply Markov's Inequality, we obtain that
+	 \noindent\textbf{Proof for Lemma 2.3.4:} Apply Markov's Inequality, we obtain that
 	 \begin{align*}
 	 	Pr\left[|X - \mu| > t\right]  &\le Pr\left[\left(X - \mu\right)^{2k} > t^{2k}\right]\\
 	 	& \le \frac{E[(X-\mu)^{2k}]}{t^{2k}}
@@ -173,7 +173,7 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 		& \le \frac{\sum_{i_1, i_2, ..., i_{2k} \in [n]} E[\Pi_{j \in [2k]}(\hat{X}_{i_j}-\mu_{i_j})] + \delta n^{2k}}{t^{2k}} \\
 		& = \frac{E[(\hat{X}-\mu)^{2k}] + \delta n^{2k}}{t^{2k}}
 	 \end{align*}
-	 For every $\hat{X_i}$ for $i \in [n]$, $\hat{X}_i$ are independent random variables that have the same marginal distribution $X_1, ..., X_n$. In addition, we apply Lemma 2.2 (First t-wise Independent Tail Inequality) here, which is the following: 
+	 For every $\hat{X_i}$ for $i \in [n]$, $\hat{X}_i$ are independent random variables that have the same marginal distribution $X_1, ..., X_n$. In addition, we apply Lemma 2.3.3 (First t-wise Independent Tail Inequality) here, which is the following: 
 	 $$ Pr[(\hat{X}-\mu) > A) \le \frac{E[(\hat{X}-\mu)^t]}{A^t} \le C_t \times (\frac{n^t}{A^2})^{t/2} $$ 
 	 Substituting t into A, we will obtain that
 	 $$ Pr[|X - \mu| > t] \le \frac{E[(\hat{X}-\mu)^{2k}] + \delta n^{2k}}{t^{2k}} \le 2(\frac{2nk}{t^2})^k + \delta (\frac{n}{t})^2k \qquad \hfill\blacksquare$$ 
@@ -237,7 +237,7 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 \]
 	Thus, we could rewrite X as the sum of $X_i$ and, if $h_{i+1}$ is uniformly independent, the expectation of X will become:
 	$$E[X] = \sum_j^{|S_i|}E[X_j]=\sum_j^{|S_i|}\frac1{2^{l_{i+1}}} = \frac{|S_i|}{2^{l_{i+1}}}$$
-	However, since our function $h_{i+1}$ is $k_{i+1}$-wise $\delta$-dependent, $X=$ sum of $|S_i|$ $k_{i+1}$-wise $\delta$-dependent random variables. Then, we could directly apply \textbf{Lemma 2.3} with $k = \frac{k_{i+1}}2$ and $\mu =E[X]=\frac{|S_i|}{2^{l_{i+1}}}$,
+	However, since our function $h_{i+1}$ is $k_{i+1}$-wise $\delta$-dependent, $X=$ sum of $|S_i|$ $k_{i+1}$-wise $\delta$-dependent random variables. Then, we could directly apply \textbf{Lemma 2.3.4} with $k = \frac{k_{i+1}}2$ and $\mu =E[X]=\frac{|S_i|}{2^{l_{i+1}}}$,
 	\begin{align*}
 	Pr[X>(1+\alpha)\mu] &\le 2\left(\frac{|S_i|k_{i+1}}{(\alpha\mu)^2}\right)^{\frac{k_{i+1}}2}+\delta\left( \frac{|S_i|}{\alpha\mu}\right)^{\frac{k_{i+1}}2}\\
 	&= 2\left(\frac{|S_i|k_{i+1}}{\alpha^2 \frac{|S_i|^2}{2^{2l_{i+1}}}}\right)^{\frac{k_{i+1}}2} +\delta\left( \frac{|S_i|}{\alpha\frac{|S_i|}{2^{l_{i+1}}}}\right)^{\frac{k_{i+1}}2}\quad\text{since }\mu =\frac{|S_i|}{2^{l_{i+1}}}\\
@@ -287,7 +287,7 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 	& \le \frac1{2n^{c+2}}+\frac1{2n^{c+2}}\qquad \text{by upper bound derived above}\\ 
 	& = \frac1{n^{c+2}}
 	\end{align*}
-	We have at most $2^{l_{i+1}}\le n$ different y since $2^{l_{i+1}}\le2^{\frac{\log n_{i-1}}4}\le 2^{\log n}=n$. Then, we will apply an union bound on y. Then, we will get Lemma 2.2 by subtract the union bound result from 1.$\hfill\blacksquare$ \\
+	We have at most $2^{l_{i+1}}\le n$ different y since $2^{l_{i+1}}\le2^{\frac{\log n_{i-1}}4}\le 2^{\log n}=n$. Then, we will apply a union bound on y. Then, we will get Lemma 3.2 by subtract the union bound result from 1.$\hfill\blacksquare$ \\
 
 	\noindent Now we are ready to prove Theorem 3.1. We first start with the proof of the description length and evaluation time.\\
 	
