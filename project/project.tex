@@ -224,7 +224,7 @@ Thus, we could derive the space and time requirement mentioned in Lemma 2.3.1.$\
 	
 \noindent To prove Lemma 2.3.2, we will need a Lemma conducted by Bellare(1994) from the paper titled \textit{Randomness Efficient Oblivious Sampling}. It is named as the First t-wise Independent Tail Inequality in the original paper and labeled as Lemma 2.3.3 here. \\
 
-	\noindent\textbf{Lemma 2.3.3 (First t-wise Independent Tail Inequality):} Let $t \ge 4$ be an even integer, Suppose $X_1, ..., X_n$ are t-wise independent random variables taking values in [0, 1]. Let $X = \sum_{i \in n} X_i$ and $\mu = E[x]$, then we have for A > 0,
+	\noindent\textbf{Lemma 2.3.3 (First t-wise Independent Tail Inequality):} Let $t \ge 4$ be an even integer, Suppose $X_1, ..., X_n$ are t-wise independent random variables taking values in [0, 1]. Let $X = \sum_{i \in n} X_i$ and $\mu = E[x]$, then we have for $A > 0$,
 	$$Pr[|X-\mu| \ge A] \le C_t (\frac{nt}{A^2})^{t/2}$$
 
 	 \noindent\textbf{Proof for Lemma 2.3.2:} With Lemma 2.3.3 setup, we can start proving Lemma 2.3.2. First apply Markov's Inequality, we obtain that
