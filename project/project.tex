@@ -102,7 +102,7 @@
 	A sequence of random variables $X_1,X_2,...,X_n$ over $\{0,1\}$ are $\epsilon$-biased distribution if, for any non-empty set $S\subseteq [n]$,
 	$$|Pr(\oplus_{i\in S} X_i = 1)-Pr(\oplus_{i\in S} X_i = 0)|\le \epsilon$$\\
 	
-Note that the following definitions will be used to understand Definition 2.2.2, which is $\epsilon$-biased distribution. It's important to fully understand the definition and derivation of $\epsilon$-biased distribution because it is used in the proof of our construction. This $\epsilon$-biased distribution is based on the work did by Alon et al. included in the paper titled \textit{Simple Constructions of Almost k-wise Independent Random Variables}(Alon et al., 2002)\\
+Note that the following definitions will be used to understand Definition 2.2.2, which is $\epsilon$-biased distribution. It's important to fully understand the definition and derivation of $\epsilon$-biased distribution because it is used in the proof of our construction. This $\epsilon$-biased distribution is based on the work did by Alon et al. included in the paper titled \textit{Simple Constructions of Almost k-wise Independent Random Variables}(Alon et al., 1992)\\
 
 	\noindent\textbf{Almost k-wise independence:}
 	Let $S_n$ be a sample space and $X=\{x_1...x_n\}$ be selected uniformly from $S_n$
@@ -141,7 +141,7 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	\end{enumerate}
 	
 	\subsection{2.3 - Theorems:}
-\quad	In this section, we can present the key lemmas, corollaries, and theorems that we use to prove the construction. Refer to Section 2.1 and Section 2.2 if encountering unknown definitions. We will first state that there exists a family of k-wise $\delta$-dependent function that meets our requirement about describe space and computation times. Then, by work did by Alon et all(2002), we will offer detail about this family of k-wise $\delta$-dependent functions and how we come up with its space and time requirement. After that, we will state a useful tail bound for limited independence based on work did by Bellare(1994). It will help us limit the probability that the sum of n 2k-wise $\delta$-dependent random variables diverges from its expectaion. This section introduce Lemma 2.2 of paper titled  \textit{Randomness Efficient Oblivious Sampling}.\\
+\quad	In this section, we can present the key lemmas, corollaries, and theorems that we use to prove the construction. Refer to Section 2.1 and Section 2.2 if encountering unknown definitions. We will first state that there exists a family of k-wise $\delta$-dependent function that meets our requirement about describe space and computation times. Then, by work did by Alon et all(1992), we will offer detail about this family of k-wise $\delta$-dependent functions and how we come up with its space and time requirement. After that, we will state a useful tail bound for limited independence based on work did by Bellare(1994). It will help us limit the probability that the sum of n 2k-wise $\delta$-dependent random variables diverges from its expectaion. This section introduce Lemma 2.2 of paper titled  \textit{Randomness Efficient Oblivious Sampling}.\\
 
 	First, we will use following family of k-wise $\delta$-dependent function:\\
 	\noindent\textbf{Corollary 2.3.1:} For any integers a and integer b such that b is a power of 2, there exists a family of k-wise $\delta$-dependent function $f$ that maps from [a] to [b], that is $f: [a] \rightarrow [b]$. This function can be described by $O(\log a + k\log b+ \log(1/\delta))$ bits. More importantly, in the RAM model, if a word size is $\Omega(\log a + k\log b+ \log(1/\delta))$, then this function can be evaluated in $O(\log a + k\log b+ \log(1/\delta))$ time. \\
@@ -164,8 +164,8 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	\end{align*}
 	Thus, the fact 2.3.1 stands. $\hfill\blacksquare$ \\
 
-Now given the fact 2.3.1, we could transfer any $\epsilon$-biased distribution to a family of k-wise $\delta$-dependent functions. In the work completed by Alon et al(2002), they introduced following construction that forms a sample space that is nearly $\epsilon$-biased. We will introduce this construction below and show its connection with Lemma 2.3.1. Now, let $S^{2m}_n$ represents the sample space of $2^{2m}$ strings whose length is n.\\
-	\noindent\textbf{Construction(Alen et al, 2002)}
+Now given the fact 2.3.1, we could transfer any $\epsilon$-biased distribution to a family of k-wise $\delta$-dependent functions. In the work completed by Alon et al(1992), they introduced following construction that forms a sample space that is nearly $\epsilon$-biased. We will introduce this construction below and show its connection with Lemma 2.3.1. Now, let $S^{2m}_n$ represents the sample space of $2^{2m}$ strings whose length is n.\\
+	\noindent\textbf{Construction(Alen et al, 1992)}
 	\begin{enumerate}
 	\item Let $m=\log\frac n \epsilon$ and $bin: GF(2^m)\rightarrow\{0,1\}^m$ be a one-to-one mapping function satisfies that $bin(0)=\{0\}^m$ and $bin(u+v)=bin(u)\oplus bin(v)$, which should be satisfied by the standard representation of $GF(2^m)$.
 	\item We have two elemnts $x,y$ that are used to calculate every string s in $S^{2m}n$. Let $s = s_1s_2...s_n$, then $$s_i = (bin(x^i),bin(y))_2\qquad i\in[n]$$ where $x^i$ is the ith power of x when considered as an element in $GF(2^m)$. This means $x^i$ will become $x^i \mod 2^m$ iff $x^i\ge 2^m$.
@@ -244,7 +244,7 @@ To prove Lemma 2.3.2, we will need a theorem conducted by Bellare(1994). It is n
 	 $$ Pr[|X - \mu| > t] \le \frac{E[(\hat{X}-\mu)^{2k}] + \delta n^{2k}}{t^{2k}} \le 2(\frac{2nk}{t^2})^k + \delta (\frac{n}{t})^2k \qquad \hfill\blacksquare$$ 
 		
 	\section{3. $\qquad$ Construction}
-	In this section, we will first present the construction, mentioned in Section 1.1, based on the gradually increasing independence. This construction will guarantee a maximum load of  $O(\log n/\log\log n)$ using $O(\log n/\log\log n)$ with a smaller description length. This constructions allows us to prove the following theorem: \\
+\quad	In this section, we will first present the construction, mentioned in Section 1.1, based on the gradually increasing independence. This construction will guarantee a maximum load of  $O(\log n/\log\log n)$ using $O(\log n/\log\log n)$ with a smaller description length. This constructions allows us to prove the following theorem: \\
 	
 	\noindent\textbf{Theorem 3.1:} For any constant $c>0$, integers $n$ and $u=\text{poly}(n)$, there exists a family  $\mathscr{F}$ of $f:[u]\rightarrow[v]$ such that:
 	\begin{enumerate}
@@ -253,25 +253,25 @@ To prove Lemma 2.3.2, we will need a theorem conducted by Bellare(1994). It is n
 	\item $\exists \gamma>0$ such that, for any $S\subseteq[u]$, $|S|=n$ and an error parameter c,
 		$${Pr}_{f\leftarrow \mathscr{F}}\left[\max_{i\in[n]}|f^{-1}(i) \cap S|\le \frac{\gamma\log n}{\log\log n}\right]> 1-\frac1{n^c}$$
 	\end{enumerate}
-	Under our construction, statement 3 of Theorem 3.1 could be interpreted in following way:
+\quad	Under our construction, statement 3 of Theorem 3.1 could be interpreted in following way:
 	\begin{align*}
 	&\text{For any bin in the last layer,}\\
 	& \qquad\qquad\quad\text{the maximum load of this bin is } O(\frac{\log n}{\log\log n}) \text{ with high probability.}
 	\end{align*}
-	In what follows we provide a more formal description of our construction (see Section 3.1), and then prove Theorem 3.1 (see Section 3.2).
+\quad	In what follows we provide a more formal description of our construction (see Section 3.1), and then prove Theorem 3.1 (see Section 3.2).
 	
 	\subsection{3.1 - Formal Description of Construction}
-	There are two cases about n: whether n is a power of 2 or not. We only consider the case that $n=2^k$ since we could set the number of bins to be $m = 2^{\lfloor\log_2n\rfloor}$ and the influence on maximum load will only be at most a factor of two. Let $d=O(\log\log n)$, and for every $i\in [d]$, let $\mathscr{H}_i$ be a family of $k_i$-wise $\delta$-dependent functions $[u]\rightarrow{0,1}^{l_i}$, where:
+\quad	There are two cases about n: whether n is a power of 2 or not. We only consider the case that $n=2^k$ since we could set the number of bins to be $m = 2^{\lfloor\log_2n\rfloor}$ and the influence on maximum load will only be at most a factor of two. Let $d=O(\log\log n)$, and for every $i\in [d]$, let $\mathscr{H}_i$ be a family of $k_i$-wise $\delta$-dependent functions $[u]\rightarrow{0,1}^{l_i}$, where:
 	\begin{enumerate}
 		\item $n_0 = n, n_i = \frac{n^{i-1}}{2^{l_i}}$ $\forall i\in [d]$
 		\item $l_i = \lfloor\frac{\log n_{i-1}}{4}\rfloor$ $\forall i\in [d-1]$, $l_d = \log n - \sum_{i=1}^{d-1}l_i$
 		\item $k_il_i = \Theta(\log n)$ $\forall i\in [d-1]$, $k_d = \Theta(\frac{\log n}{\log\log n})$
 		\item $\delta = \text{poly}(\frac1n)$
 	\end{enumerate}
-	 We randomly select $h_i$ from corresponding function family $\mathscr{H}_i$ for every $i\in [d]$, and generate our overall hash function f as:
+\quad	 We randomly select $h_i$ from corresponding function family $\mathscr{H}_i$ for every $i\in [d]$, and generate our overall hash function f as:
 	$$f(x) = h_1(x) \circ ... \circ h_d(x),$$
 	which just simply concatenates all outputs of d $k_i$-wise $\delta$-dependent functions.\\\\
-	We could visualize this construction as a reversed tree of d+1 layers. Given the sets of balls $S\subseteq[n]$, we will have:
+\quad	We could visualize this construction as a reversed tree of d+1 layers. Given the sets of balls $S\subseteq[n]$, we will have:
 	\begin{align*}
 	&\text{layer 0:$\qquad$ 1 bin with }n_0 = n\\
 	&\text{layer 1:$\qquad$ }2^{l_1}\text{ bins with } n_1 = \frac{n_0}{2^{l_1}}\\
@@ -279,36 +279,36 @@ To prove Lemma 2.3.2, we will need a theorem conducted by Bellare(1994). It is n
 	&\qquad\qquad\qquad\qquad.........\\
 	&\text{layer i:$\qquad$ }2^{\sum_{j=1}^{i}l_j}\text{ bins with }n_i = \frac{n_{i-1}}{2^{l_i}}
 	\end{align*}
-	Now, we start in layer 0 where we only have 1 bin containing all n balls. Then, we use function $h_1$ to hash all n elements into $2^{l_1}$ bins in the next layer. Now, if $h_1$ is an uniformly independent hash function, the expected number of balls in one bin in layer 1 is $\frac{n}{2^{l_1}=n_1}=\frac{n_0}{2^{l_1}}$. Then, for each bin in layer 1, we run $h_2$ on all balls inside this bin and hashed them to a unique group of $2^{l_2}$ bins from $2^{l_1+l_2}$ bins in layer 2. We repeat this step for all $2^{l_1}$ bins in layer 1. Since we expect each bin in layer 1 to have $n_1$ balls and we hash these balls to $2^{l_2}$ bins in layer 2, the expected number of balls in each bin in layer 2 is $\frac{n_1}{2^{l_1}}=n_2$ if function $h_2$ is uniformly independent. In general, layer i will have $2^{\sum_{j=1}^{i}l_j}$ bins, and we will hash all balls in each bin in layer $i-1$ to $2^{l_i}$ bins in layer $i$. The expected load of each bin in layer $i$ is $n_i$. Also, we could derive the relation between $n_i$ and $n$ based on previous analysis:
+\quad	Now, we start in layer 0 where we only have 1 bin containing all n balls. Then, we use function $h_1$ to hash all n elements into $2^{l_1}$ bins in the next layer. Now, if $h_1$ is an uniformly independent hash function, the expected number of balls in one bin in layer 1 is $\frac{n}{2^{l_1}=n_1}=\frac{n_0}{2^{l_1}}$. Then, for each bin in layer 1, we run $h_2$ on all balls inside this bin and hashed them to a unique group of $2^{l_2}$ bins from $2^{l_1+l_2}$ bins in layer 2. We repeat this step for all $2^{l_1}$ bins in layer 1. Since we expect each bin in layer 1 to have $n_1$ balls and we hash these balls to $2^{l_2}$ bins in layer 2, the expected number of balls in each bin in layer 2 is $\frac{n_1}{2^{l_1}}=n_2$ if function $h_2$ is uniformly independent. In general, layer i will have $2^{\sum_{j=1}^{i}l_j}$ bins, and we will hash all balls in each bin in layer $i-1$ to $2^{l_i}$ bins in layer $i$. The expected load of each bin in layer $i$ is $n_i$. Also, we could derive the relation between $n_i$ and $n$ based on previous analysis:
 $$n_i = \frac{n_{i-1}}{2^l_i} = \frac{n_{i-2}}{2^{l_i+l_{i-1}}} \Rightarrow n_i = \frac{n}{2^{\sum_{j=0}^i l_j}}$$
-On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_i = \log\frac{n}{2^{\sum_{j=0}^{d-1} l_j}} =\log n_{d-1}$$
+\quad On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_i = \log\frac{n}{2^{\sum_{j=0}^{d-1} l_j}} =\log n_{d-1}$$
 
  	\subsection{3.2 - Step-by-Step Proof of Theorem 3.1}
-	To proof Theroem 3.1, we first need support from following Lemma.\\
+\quad	To proof Theroem 3.1, we first need support from following Lemma.\\
 	
 	\noindent\textbf{Lemma 3.2:} For any $i = {0,...,d-2},\alpha = \Omega(\frac1{\log\log n}), 0<\alpha_i<1$, and set $S_i\subseteq[u]$ of size at most $(1+\alpha_i)n_i$,
 	$${Pr}_{h_{i+1}\leftarrow \mathscr{H}_{i+1}}\left[\max_{y\in{0,1}^{l_{i+1}}}|h_{i+1}^{-1}(y) \cap S_i|\le(1+\alpha)(1+\alpha_i)n_{i+1}\right]> 1-\frac1{n^{c+1}}$$
-	We could understand Lemma 3.2 in following way:
+\quad	We could understand Lemma 3.2 in following way:
 	\begin{align*}
 	&\text{For any bin in layer $i+1$, given a set of elements $S_i$ from a bin in layer i,}\\
 	&\qquad\quad \text{Maximum Load} \le \left(1+\Omega(\frac1 {\log\log n})\right)(1+\alpha_i)n_{i+1} \text{ with high probability.}
 	\end{align*}
 	\noindent\textbf{Proof for Lemma 3.2:} \\
-	We first fix $y\in\{0,1\}^{l_{i+1}}$, let $X=|h_{i+1}^{-1}(y)\cap S|$. Assume without loss of generosity, $|S_i|\ge \lfloor (1+\alpha_i)n_i\rfloor$. If $|S_i|< \lfloor (1+\alpha_i)n_i\rfloor$, we could enlarge $S_i$ by adding dummy elements. Then, we introduce indicator random variables $X_i$ such that:
+\quad	We first fix $y\in\{0,1\}^{l_{i+1}}$, let $X=|h_{i+1}^{-1}(y)\cap S|$. Assume without loss of generosity, $|S_i|\ge \lfloor (1+\alpha_i)n_i\rfloor$. If $|S_i|< \lfloor (1+\alpha_i)n_i\rfloor$, we could enlarge $S_i$ by adding dummy elements. Then, we introduce indicator random variables $X_i$ such that:
 \[ X_i=\begin{cases} 
       1 & \text{if element }j\in S_i\text{ is hashed into bin y by }h_{i+1} \\
       0 & \text{Otherwise}
    \end{cases}
 \]
-	Thus, we could rewrite X as the sum of $X_i$ and, if $h_{i+1}$ is uniformly independent, the expectation of X will become:
+\quad	Thus, we could rewrite X as the sum of $X_i$ and, if $h_{i+1}$ is uniformly independent, the expectation of X will become:
 	$$E[X] = \sum_j^{|S_i|}E[X_j]=\sum_j^{|S_i|}\frac1{2^{l_{i+1}}} = \frac{|S_i|}{2^{l_{i+1}}}$$
-	However, since our function $h_{i+1}$ is $k_{i+1}$-wise $\delta$-dependent, $X=$ sum of $|S_i|$ $k_{i+1}$-wise $\delta$-dependent random variables. Then, we could directly apply \textbf{Lemma 2.3.4} with $k = \frac{k_{i+1}}2$ and $\mu =E[X]=\frac{|S_i|}{2^{l_{i+1}}}$,
+\quad	However, since our function $h_{i+1}$ is $k_{i+1}$-wise $\delta$-dependent, $X=$ sum of $|S_i|$ $k_{i+1}$-wise $\delta$-dependent random variables. Then, we could directly apply \textbf{Lemma 2.3.4} with $k = \frac{k_{i+1}}2$ and $\mu =E[X]=\frac{|S_i|}{2^{l_{i+1}}}$,
 	\begin{align*}
 	Pr[X>(1+\alpha)\mu] &\le 2\left(\frac{|S_i|k_{i+1}}{(\alpha\mu)^2}\right)^{\frac{k_{i+1}}2}+\delta\left( \frac{|S_i|}{\alpha\mu}\right)^{\frac{k_{i+1}}2}\\
 	&= 2\left(\frac{|S_i|k_{i+1}}{\alpha^2 \frac{|S_i|^2}{2^{2l_{i+1}}}}\right)^{\frac{k_{i+1}}2} +\delta\left( \frac{|S_i|}{\alpha\frac{|S_i|}{2^{l_{i+1}}}}\right)^{\frac{k_{i+1}}2}\quad\text{since }\mu =\frac{|S_i|}{2^{l_{i+1}}}\\
 	&= 2\left(\frac{2^{2l_{i+1}}k_{i+1}}{\alpha^2 |S_i|}\right)^{\frac{k_{i+1}}2} +\delta\left( \frac{2^{2l_{i+1}}}{\alpha}\right)^{\frac{k_{i+1}}2}
 	\end{align*}
-	Now, we will try to upper bound each item in this expression.
+\quad	Now, we will try to upper bound each item in this expression.
 	\begin{enumerate}
 		\item Notice that, in our construction, 
 		\begin{enumerate}
@@ -344,7 +344,7 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 		& = \frac1{2n^{c+2}}
 		\end{align*}
 	\end{enumerate}
-	Thus, we will get:
+\quad	Thus, we will get:
 	\begin{align*}
 	Pr\left[X>(1+\alpha)(1+\alpha_i)n_{i+1}\right] &= Pr\left[X>(1+\alpha)(1+\alpha_i)\frac{n_i}{2^{l_{i+1}}}\right]\quad\text{since }n_{i+1} = \frac{n_i}{2^{l_{i+1}}}\\
 	& \le Pr\left[X>(1+\alpha)\frac{|S_i|}{2^{l_{i+1}}}\right]\quad\text{since }|S_i|\le(1+\alpha_i)n_i\\
@@ -352,12 +352,12 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 	& \le \frac1{2n^{c+2}}+\frac1{2n^{c+2}}\qquad \text{by upper bound derived above}\\ 
 	& = \frac1{n^{c+2}}
 	\end{align*}
-	We have at most $2^{l_{i+1}}\le n$ different y since $2^{l_{i+1}}\le2^{\frac{\log n_{i-1}}4}\le 2^{\log n}=n$. Then, we will apply a union bound on y. Then, we will get Lemma 3.2 by subtract the union bound result from 1.$\hfill\blacksquare$ \\
+\quad	We have at most $2^{l_{i+1}}\le n$ different y since $2^{l_{i+1}}\le2^{\frac{\log n_{i-1}}4}\le 2^{\log n}=n$. Then, we will apply a union bound on y. Then, we will get Lemma 3.2 by subtract the union bound result from 1.$\hfill\blacksquare$ \\
 
-	\noindent Now we are ready to prove Theorem 3.1. We first start with the proof of the description length and evaluation time.\\
+ Now we are ready to prove Theorem 3.1. We first start with the proof of the description length and evaluation time.\\
 	
 	\noindent\textbf{Proof for Theorem 3.1(Space and Time):} \\
-	For the layer i, we have $h_i:[u]\rightarrow\{0,1\}^{l_i}$ which is a $k_i$-wise $\delta$-dependent function. Thus, we know $v = 2^{l_i}$. Combining the fact that $u = \text{poly}(u)$ and $\delta=\text{poly}(\frac1n)$, by Corollary 2.1, we know there exists a family of $k_i$-wise $\delta$-dependent functions that requires:
+\quad	For the layer i, we have $h_i:[u]\rightarrow\{0,1\}^{l_i}$ which is a $k_i$-wise $\delta$-dependent function. Thus, we know $v = 2^{l_i}$. Combining the fact that $u = \text{poly}(u)$ and $\delta=\text{poly}(\frac1n)$, by Corollary 2.1, we know there exists a family of $k_i$-wise $\delta$-dependent functions that requires:
 \begin{align*}
 \textbf{Space} &= O(\log u+k\log v+\log(\frac1\delta))\\
 &= O(\log \text{poly}(n) + k_i\log 2^{l_i}+\log(\frac1{\text{poly}(\frac1n)}))\\
@@ -367,13 +367,14 @@ On the other hand, we could rewrite $l_d$ as $$l_d = \log n - \sum_{i=1}^{d-1}l_
 \textbf{Time} &= O(\log u+k\log v+\log(\frac1\delta))\\
 &=  O(\log n)\text{ by the same analysis}
 \end{align*}
-The final hashing function f generates output by calculating d intermidiate hash functions $h_1,h_2,...,h_d$. Thus, with an appropriate choice of $d= O(\log\log n)$, we could describe f using $O(\log n\log\log n)$ bits and compute f in $O(\log n\log\log n)$ time.$\hfill\blacksquare$\\\\
+\quad The final hashing function f generates output by calculating d intermidiate hash functions $h_1,h_2,...,h_d$. Thus, with an appropriate choice of $d= O(\log\log n)$, we could describe f using $O(\log n\log\log n)$ bits and compute f in $O(\log n\log\log n)$ time.$\hfill\blacksquare$\\
+
 	Secondly, we need to limit the maximum load. We will use Lemma 3.2 to limit the maximum load in layer $i+1$ for $i\in[d-1]$ so that we could analyze the maximum load in the last layer.\\
 	
 	\noindent\textbf{Proof for Theorem 3.1(Maximum Load):} \\
-	We fix a set $S\subseteq[u]$ of size n. We inductively argue that, for $\alpha = \Omega(\frac1{\log\log n})$:
+\quad	We fix a set $S\subseteq[u]$ of size n. We inductively argue that, for $\alpha = \Omega(\frac1{\log\log n})$:
 	$$Pr\left[\text{Maximum load in layer i per bin}\le(1+\alpha)^in_i\right]\ge1-\frac i{n^{c+1}}$$
-	The base case here is $i = 0$. In layer 0, we have only 1 bin with $n_0=n=(1+\alpha)^0n = (1+\alpha)^in_i$. Thus, the claim always holds. Now, we assume the claim holds for layer i. We apply Lemma 3.2 on each bin of layer i with $(1+\alpha_i) = (1+\alpha)^i$. Based on our interpretation and the fact that there should be no more than n bins in one layer, we know:
+\quad	The base case here is $i = 0$. In layer 0, we have only 1 bin with $n_0=n=(1+\alpha)^0n = (1+\alpha)^in_i$. Thus, the claim always holds. Now, we assume the claim holds for layer i. We apply Lemma 3.2 on each bin of layer i with $(1+\alpha_i) = (1+\alpha)^i$. Based on our interpretation and the fact that there should be no more than n bins in one layer, we know:
 \begin{align*}
 &Pr\left[ \text{number of balls in one bin of layer }i+1\le (1+\alpha)^{i+1}n_{i+1}\right] \ge 1-\frac1{n^{c+1}}\\ 
 &\Rightarrow Pr\left[ \text{number of balls in one bin of layer }i+1> (1+\alpha)^{i+1}n_{i+1}\right] \le \frac1{n^{c+1}}\\
@@ -382,7 +383,8 @@ The final hashing function f generates output by calculating d intermidiate hash
 &\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\ge 1-\frac {i+1}{n^{c+1}}\\
 &\Rightarrow Pr\left[ \text{Maximum Load of layer }i+1 \text{ is } (1+\alpha)^{i+1}n_{i+1}\right] \ge 1-\frac {i+1}{n^{c+1}}\\
 \end{align*}
-Thus, the claim holds in inductive case.\\\\
+\quad  \text{ }Thus, the claim holds in inductive case.\\
+
 Now, we want to upper bound $n_{d-1}$ which is the expected load in layer $d-1$. By the claim of induction, we know that, with probability at least $1-\frac{d-1}{n^{c+1}}$, the maximum load of layer $d-1$ is $(1+\alpha)^{d-1}n_{d-1}\le2n_{d-1}$ for appropriate $d=O(\log\log n)$. For every $i\in[d-1]$, 
 \begin{align*}
 &\qquad l_i =\lfloor\frac{\log n_{i-1}}4\rfloor \ge \frac{\log n_{i-1}}4 -1\\
@@ -390,8 +392,8 @@ Now, we want to upper bound $n_{d-1}$ which is the expected load in layer $d-1$.
 &\Rightarrow n_{i-1}\le 2 n_{i-2}^{3/4}\Rightarrow n_i\le 2 (2 n_{i-2}^{3/4})^{3/4}=2^{1+3/4}n_{i-2}^{(3/4)^2}\\
 &\Rightarrow_{induction} n_{i-1}\le 2^{\sum_{j=0}^{i-1}(3/4)^j}n^{(3/4)^i}<=2^4n^{(3/4)^i}=16n^{(3/4)^i}
 \end{align*}
-Thus, for an appropiate choice of $d = O(\log\log n)$, it holds $$n_{d-1}\le \log n$$
-For example, if $d = \log_{3/4}\left( \frac{\log \frac{\log n}{16}}{\log n}\right)=O(\log\log n)$,
+\quad Thus, for an appropiate choice of $d = O(\log\log n)$, it holds $$n_{d-1}\le \log n$$
+\quad For example, if $d = \log_{3/4}\left( \frac{\log \frac{\log n}{16}}{\log n}\right)=O(\log\log n)$,
 \begin{align*}
 n_{d-1}\le16n^{(3/4)^d}&=16n^{(3/4)^{\log_{3/4}\left( \frac{\log \frac{\log n}{16}}{\log n}\right)}}\\
 &= 16n^{\frac{\log \frac{\log n}{16}}{\log n}}\\
@@ -399,8 +401,9 @@ n_{d-1}\le16n^{(3/4)^d}&=16n^{(3/4)^{\log_{3/4}\left( \frac{\log \frac{\log n}{1
 &= 16\times\frac{\log n}{16}\\
 &= \log n
 \end{align*}
-Thus, we could state, with probability at least $1-\frac{d-1}{n^{c+1}}$, the maximum load of layer $d-1$ is $(1+d)^{d-1}\le2n_{d-1}\le2\log n$. By the analysis on $n_i$ and $l_d$ in section 3.1, we know $l_d = \log n_{d-1}$. Thus, elements in each bin in layer $d-1$ are hashed into $2^{l_d} = 2^{\log n_{d-1}} = n_{d-1}$ bins using the function $h_d$ wich is $k_d$-wise $\delta$-dependent, where $k_d=\Omega(\frac{\log n}{\log\log n})$ and with an appropriate choice of $d=O(\log\log n)$.\\\\
-Therefore, the probability that any $t = \frac{\gamma\log n}{\log \log n}\le k_d$ elements from layer $d-1$ are hashed into any specific bin in layer d is:
+\quad Thus, we could state, with probability at least $1-\frac{d-1}{n^{c+1}}$, the maximum load of layer $d-1$ is $(1+d)^{d-1}\le2n_{d-1}\le2\log n$. By the analysis on $n_i$ and $l_d$ in section 3.1, we know $l_d = \log n_{d-1}$. Thus, elements in each bin in layer $d-1$ are hashed into $2^{l_d} = 2^{\log n_{d-1}} = n_{d-1}$ bins using the function $h_d$ wich is $k_d$-wise $\delta$-dependent, where $k_d=\Omega(\frac{\log n}{\log\log n})$ and with an appropriate choice of $d=O(\log\log n)$.\\
+
+ Therefore, the probability that any $t = \frac{\gamma\log n}{\log \log n}\le k_d$ elements from layer $d-1$ are hashed into any specific bin in layer d is:
 \begin{align*}
 {2n_{d-1}\choose t} \left((\frac1{n_{d-1}}^t+\delta)\right)&\le (\frac{2en_{d-1}}{t})^t\left((\frac1{n_{d-1}}^t+\delta)\right)\\
 & = (\frac{2e}t)^t+\delta\left( \frac{2en_{d-1}}{t}\right)^t\\
@@ -408,7 +411,7 @@ Therefore, the probability that any $t = \frac{\gamma\log n}{\log \log n}\le k_d
 & \le \frac1{2n^{c+3}}+\frac1{2n^{c+3}}\\
 & = \frac1{n^{c+3}}
 \end{align*}
-Reason that $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}}$ and $\delta\left( \frac{2en_{d-1}\log\log n}{\gamma\log n}\right)^{\frac{\gamma\log n}{\log \log n}}$ are less than $\frac1{2n^{c+3}}$ is simple. We will use $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}}$ as example:
+\quad Reason that $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}}$ and $\delta\left( \frac{2en_{d-1}\log\log n}{\gamma\log n}\right)^{\frac{\gamma\log n}{\log \log n}}$ are less than $\frac1{2n^{c+3}}$ is simple. We will use $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}}$ as example:
 \begin{align*}
 (\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log n}} &= (\frac{2e}{\gamma})^{\frac{\gamma\log n}{\log \log n}}(\log\log n)^{\frac{\gamma\log n}{\log \log n}}\times(\log n)^{-\frac{\gamma\log n}{\log \log n}}\\
 &= \eta(\log\log n)^{\frac{\gamma\log n}{\log \log n}}\times(\log n)^{-\frac{\gamma\log n}{\log \log n}}\quad\text{set }\eta=(\frac{2e}{\gamma})^{\frac{\gamma\log n}{\log \log n}}\\
@@ -416,8 +419,9 @@ Reason that $(\frac{2e\log\log n}{\gamma\log n})^{\frac{\gamma\log n}{\log \log 
 &= \eta (\log\log n)^{\gamma\log_{\log n} n}\times n^{-\gamma}\\
 &= O(n^{-\gamma+1})
 \end{align*}
-For any $\gamma\le c+4$, we could derive the result above. As we know $k_d = \Omega(\frac{\log n}{\log log n})$ and $t = \frac{\gamma\log n}{\log\log n}$, we know $\gamma\le \frac{k_d\log\log n}{\log n} = \Omega(1)$. Thus, $\gamma\le c+4$ is within the limit, and it is possible in this situation.\\\\
-Thus, we have proved that the probablility that any $t\le k_d$ elements from layer $d-1$ are hashed into a specific bin in layer d is less than $\frac{1}{n^{c+3}}$. There exist at most $n^2$ such pair of bins exists between layer $d-1$ and layer d. Thus we could get:
+\quad For any $\gamma\le c+4$, we could derive the result above. As we know $k_d = \Omega(\frac{\log n}{\log log n})$ and $t = \frac{\gamma\log n}{\log\log n}$, we know $\gamma\le \frac{k_d\log\log n}{\log n} = \Omega(1)$. Thus, $\gamma\le c+4$ is within the limit, and it is possible in this situation.\\
+
+ Thus, we have proved that the probablility that any $t\le k_d$ elements from layer $d-1$ are hashed into a specific bin in layer d is less than $\frac{1}{n^{c+3}}$. There exist at most $n^2$ such pair of bins exists between layer $d-1$ and layer d. Thus we could get:
 \begin{align*}
 &Pr(\text{a bin in layer d with more than t elements})\le\frac1{n^{c+1}}\\
 &\Rightarrow_{\text{Union Bound}} Pr(\exists\text{ a bin in layer d with more than t elements})\le\frac n{n^{c+1}}\\
@@ -430,13 +434,13 @@ Since we have proven Theorem 3.1, it implies that with high probability at least
 
 
 	 \section{4. $\qquad$ Extension and Acknowledgement}
-	 This section presents some extensional use and appendix. Since we have proven that this construction does provide the benefit it claims, we can employ this construction for storing elements using linear probing. More importantly, it also guarantees the maximum load that all other hash families provide. Existing algorithms put more of their focus on simplicity and fast computation, while this construction gives a much better description length of the hash family while sacrificing the simplicity factor.
+\quad	 This section presents some extensional use and appendix. Since we have proven that this construction does provide the benefit it claims, we can employ this construction for storing elements using linear probing. More importantly, it also guarantees the maximum load that all other hash families provide. Existing algorithms put more of their focus on simplicity and fast computation, while this construction gives a much better description length of the hash family while sacrificing the simplicity factor.
 	 
 	 \subsection{4.1 - Augmenting The Construction} 
-	 We can update the construction to offer $O(loglogn$-wise independence without affecting the benefits it offer, which is the description length of the hash family. According to L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder, this is especially useful in the case of any application that involves tail bounds for limited independence. For example, if for a function $f$ built from this construction, we can modify it to be $(f(x)+h(x))$modn easily where $h(x)$ is sampled from a family of $O(loglogn)$-wise independent hash functions. 
+\quad	 We can update the construction to offer $O(loglogn$-wise independence without affecting the benefits it offer, which is the description length of the hash family. According to L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder, this is especially useful in the case of any application that involves tail bounds for limited independence. For example, if for a function $f$ built from this construction, we can modify it to be $(f(x)+h(x))$modn easily where $h(x)$ is sampled from a family of $O(loglogn)$-wise independent hash functions. 
 	 
 	 \subsection{4.2 - Acknowledge} 
-	 This construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper was written to fully understand the construction presented in Section 1.1. This construction was the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. 	
+\quad	 This construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper was written to fully understand the construction presented in Section 1.1. This construction was the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. 	
 	 
 	\subsection{Appendix A - Proof of Lemma 2.3.1.1}
 
@@ -447,28 +451,28 @@ Since we have proven Theorem 3.1, it implies that with high probability at least
 	[1]&\text{ L. E. Celis, O. Reingold, G. Segev and U. Wieder, "Balls and Bins: Smaller Hash Families}\\
 	&\text{ and Faster Evaluation," 2011 IEEE 52nd Annual Symposium on Foundations of Computer }\\
 	&\text{ Science, Palm Springs, CA, 2011, pp. 599-608, doi: 10.1109/FOCS.2011.49.}\\
+%&\\
+%	[2] &\text{ A. Pagh and R. Pagh. Uniform hashing in constant time and optimal space. SIAM}\\
+%	&\text{Journal on Computing, 38(1):85–96, 2008.}\\
+%&\\
+%	[3] &\text{ J. Naor and M. Naor. Small-bias probability spaces: Efficient constructions and}\\
+%	&\text{ applications. SIAM Journal on Computing, 22(4):838–856, 1993.}\\
+%&\\
+%	[4]&\text{ M. Dietzfelbinger and F. Meyer auf der Heide. A new universal class of hash functions}\\
+%	&\text{and dynamic hashing in real time. In Proceedings of the 17th International Colloquium}\\
+%	&\text{on Automata, Languages and Programming, pages 6–19, 1990.}\\
+%&\\
+%	[5]&\text{ N. Alon, M. Dietzfelbinger, P. B. Miltersen, E. Petrank, and G. Tardos. Linear hash}\\
+%	&\text{functions. Journal of the ACM, 46(5):667–683, 1999.}\\
 &\\
-	[2] &\text{ A. Pagh and R. Pagh. Uniform hashing in constant time and optimal space. SIAM}\\
-	&\text{Journal on Computing, 38(1):85–96, 2008.}\\
-&\\
-	[3] &\text{ J. Naor and M. Naor. Small-bias probability spaces: Efficient constructions and}\\
-	&\text{ applications. SIAM Journal on Computing, 22(4):838–856, 1993.}\\
-&\\
-	[4]&\text{ M. Dietzfelbinger and F. Meyer auf der Heide. A new universal class of hash functions}\\
-	&\text{and dynamic hashing in real time. In Proceedings of the 17th International Colloquium}\\
-	&\text{on Automata, Languages and Programming, pages 6–19, 1990.}\\
-&\\
-	[5]&\text{ N. Alon, M. Dietzfelbinger, P. B. Miltersen, E. Petrank, and G. Tardos. Linear hash}\\
-	&\text{functions. Journal of the ACM, 46(5):667–683, 1999.}\\
-&\\
-	[6]&\text{ N. Alon, O. Goldreich, J. Hastad, and R. Peralta. Simple construction of almost kwise}\\
+	[2]&\text{ N. Alon, O. Goldreich, J. Hastad, and R. Peralta. Simple construction of almost kwise}\\
 	&\text{ independent random variables. Random Structures and Algorithms, 3(3):289–304, 1992.}\\
+%&\\
+%	[7]&\text{ O. Goldreich and A. Wigderson. Tiny families of functions with random properties: A}\\
+%	&\text{quality-size trade-off for hashing. Random Structures and Algorithms, 11(4):315–343,}\\
+%	&\text{1997.}\\
 &\\
-	[7]&\text{ O. Goldreich and A. Wigderson. Tiny families of functions with random properties: A}\\
-	&\text{quality-size trade-off for hashing. Random Structures and Algorithms, 11(4):315–343,}\\
-	&\text{1997.}\\
-&\\
-	[8]&\text{ M. Bellare and J. Rompel. Randomness-efficient oblivious sampling. In Proceedings} \\
+	[3]&\text{ M. Bellare and J. Rompel. Randomness-efficient oblivious sampling. In Proceedings} \\
 	&\text{of the 35th Annual IEEE Symposium on Foundations of Computer Science, pages 276–287,}\\
 	&\text{1994.}
 \end{align*}
