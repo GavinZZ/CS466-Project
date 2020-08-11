@@ -59,51 +59,50 @@
 	\end{abstract}
 	\vspace{0.3cm}
 	\section{1. $\qquad$ Introduction}
-	A traditional analysis of randomized algorithm of the Balls and Bins problem maps $m$ balls into $n$ bins independently and uniformly guarantees that each bin contains at most $O(\log n/\log\log n)$ balls with high probability, as known as the maximum load of the balls and bins problem. For a truly random hash function $h(x): M \rightarrow N$, it would take $O(mlogn)$ space to store it. The traditional analysis with the use of truly random hash functions is impractical in various real-world applications because of the space to store the hash functions. Hence, a weaker notion of randomness, k-wise independence, is introduced to solve this issue. It is specifically well-studied in the case of mapping $n$ balls into $n$ bins that any $O(\log n/\log\log n)$-wise independent hash families can guarantee the maximum load of $O(\log n/\log\log n)$ with high probability. \\
+	\qquad A traditional analysis of randomized algorithm of the Balls and Bins problem maps $m$ balls into $n$ bins independently and uniformly guarantees that each bin contains at most $O(\log n/\log\log n)$ balls with high probability, as known as the maximum load of the balls and bins problem. For a truly random hash function $h(x): M \rightarrow N$, it would take $O(m\log n)$ space to store it. The traditional analysis with the use of truly random hash functions is impractical in various real-world applications because of the space to store the hash functions. Hence, a weaker notion of randomness, k-wise independence, is introduced to solve this issue. It is specifically well-studied in the case of mapping $n$ balls into $n$ bins that any $O(\log n/\log\log n)$-wise independent hash families can guarantee the maximum load of $O(\log n/\log\log n)$ with high probability. \\
 	\indent This paper will continue to study the problems of mapping $n$ balls into $n$ bins with a construction of hash functions that require a smaller description length given the inspiration from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. By using a $O(\log n/\log\log n)$-wise independent hash families, the hash functions can be described by $O(\log^2 n/\log\log n)$ bits, which itself yields a dramatic improvement over the description length of a truly random functions. We would like to provide an explicit family of hash functions to guarantee the same maximum load of $O(\log n/\log\log n)$ with high probability, and each hash function can be strictly described by $o(\log^2 n/\log\log n)$ bits. We provide an overview of the construction below.   \\
 	
 	\subsection{1.1 - Construction:}
-	This construction, obtained from the paper  titled \textit{Ball and bins: smaller hash families and faster evaluation}, concatenates the output of  $O(log log n)$ functions. Each function $f(x)$ is described using $O(logn loglogn)$ bits, which is significantly smaller than the traditional method. Moreover, we can still guarantee the maximum load of $O(log n/ log log n)$ with high probability for each randomly selected function.
+\quad This construction, obtained from the paper  titled \textit{Ball and bins: smaller hash families and faster evaluation}, concatenates the output of  $O(\log \log n)$ functions. Each function $f(x)$ is described using $O(\log n \log\log n)$ bits, which is significantly smaller than the traditional method. Moreover, we can still guarantee the maximum load of $O(\log n/ \log \log n)$ with high probability for each randomly selected function.
 			$$f(x) = h_1(x) \circ ... \circ h_d(x),$$
-	For each hash function, $h_i(x)$, the output is a binary string, and $\circ$ denotes the concatenation operator on binary strings. The first function $h_1(x)$ is $O(1)$-wise independent. The level of independence gradually increases to $O(log n/ log log n)$-wise independence for the last function $h_d(x)$. Similarly, the output length of the functions decrease from $\Omega(logn)$ bits for $h_1$ to $\Omega(loglogn)$ bits for $h_d$. We will prove in Section 3.1 and Section 3.2 that this construction suffice the requirement of keeping the maximum load with smaller description length of the hash family. \\
+\quad For each hash function, $h_i(x)$, the output is a binary string, and $\circ$ denotes the concatenation operator on binary strings. The first function $h_1(x)$ is $O(1)$-wise independent. The level of independence gradually increases to $O(\log n/ \log \log n)$-wise independence for the last function $h_d(x)$. Similarly, the output length of the functions decrease from $\Omega(logn)$ bits for $h_1$ to $\Omega(\log\log n)$ bits for $h_d$. We will prove in Section 3.1 and Section 3.2 that this construction suffice the requirement of keeping the maximum load with smaller description length of the hash family. \\
 	
 	\subsection{1.2 - Contribution:} 
-	We note that the above construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper was written to fully understand the construction presented in Section 1.1. This construction was the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. This paper will present a full and complete tour guide in understanding that this construction indeed guaranteed the same maximum load with a smaller description length. In the original paper, proofs of many lemmas and theorems are neglected. We have expanded many of lemmas and theorems given in the original paper with elaboration and proofs. \\
+\quad We note that the above construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper is written to fully understand the construction presented in Section 1.1. This construction is the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. This paper will connect and summarize multiple related papers, and, in the end, present a full and complete tour guide in understanding that this construction indeed guaranteed the same maximum load with a smaller description length. In the original paper, proofs of many lemmas and theorems are neglected. We have expanded many of lemmas and theorems given in the original paper with elaboration and proofs. \\
 		
 	\subsection{1.3 - Outline:} 
-	In Section 2, we will introduce a few pieces of terminology, definitions, lemmas, and theorems that we will be using in latter sections. Section 3 is the essential part of this research paper. It will contain the formal introduction of our construction and formal proof of why this construction works. It will first give a formal description of the construction, and we will be analyzing the construction in which we will be essentially explaining the interpretation of such construction. Finally, we will prove step-by-step that the construction guarantees the description length of hashing functions. Finally, Section 4 will introduce some extensional use of this construction. It will also analyze this construction with correspondence to the trade-off it makes to obtain the smaller description length of the function. \\
+\quad	In Section 2, we will introduce a few pieces of terminology, definitions, lemmas, and theorems that we will be using in latter sections. We will also include detailed proof for each theorems that are cited from other paper. Section 3 is the essential part of this research paper. It will contain the formal introduction of our construction and formal proof of why this construction works. It will first give a formal description of the construction, and we will be analyzing the construction in which we will be essentially explaining the interpretation of such construction. Finally, we will prove step-by-step that the construction guarantees the description length of hashing functions. Finally, Section 4 will introduce some extensional use of this construction. It will also analyze this construction with correspondence to the trade-off it makes to obtain the smaller description length of the function. \\
 	
 	\section{2. $\qquad$ Preliminaries}
-	In this section, we present the relevant definitions, lemmas, theorems that we will use to prove the construction.  \\
+\quad	In this section, we present the relevant definitions, lemmas, theorems that we will use to prove the construction.  \\
 	
 	\subsection{2.1 - Definitions:}
-	We use the unit RAM model throughout the paper. In the RAM model, we assume that we can access an arbitrary position of an array in $O(1)$ time. We also assume that word size is large enough such that it takes $O(1)$ word operation. For the balls and bins problem, we are considering the case where there are exactly $n$ balls and $n$ bins. We want to achieve a maximum load of $O(log n/ log log n)$ with smaller than usual description length under this condition. The following are some definitions and terms that we will be using frequently throughout the paper.
+\quad	We use the unit RAM model throughout the paper. In the RAM model, we assume that we can access an arbitrary position of an array in $O(1)$ time. We also assume that word size is large enough such that it takes $O(1)$ word operation. For the balls and bins problem, we are considering the case where there are exactly $n$ balls and $n$ bins. We want to achieve a maximum load of $O(log n/ log log n)$ with smaller than usual description length under this condition. The following are some definitions and terms that we will be using frequently throughout the paper.
 	\begin{enumerate}
 	\item We set $\log$ to be base of 2 as default if no base is specified. 
 	\item For a natural number u, we define the set of integers $\{1, 2, ..., u\}$ as [u].  For example, [5] = $\{1,2,3,4,5\}$.
 	\item We represent a uniform distribution over the set $\{0, 1\}^n$ by $U_n$.
 	\item The term $x \in X$ represents a sample $x$ from a random variable $X$.
 	\item  $SD(X, Y)$ represents the statistical distance between two random variables over finite domain
-		$$SD(X, Y) = \frac{1}{2}\sum_{w\in \Omega}| Pr(X\in \omega) - Pr(Y\in \omega)|$$
+		$$SD(X, Y) = \frac{1}{2}\sum_{\omega\in \Omega}| Pr(X= \omega) - Pr(Y= \omega)|$$
 	\item The term $x \in S$ means that we draw a random sample $x$ uniformly from a finite set $S$.
 	\item For two bit-string $x$ and $y$, $x \circ y$ represents the concatenation of x and y bit-string. For example, for $x = 1001$ and $y = 0111$, 
 		$$x \circ y = 1001 \circ 0111 = 10010111$$
 	\end{enumerate}
 	
 	\subsection{2.2 - More Definitions:}
-	We present a few more definitions. These definitions are more complicated but essential to understanding the proof the construction. \\
+\quad	We present a few more definitions. These definitions are more complicated but essential to understanding the proof the construction. \\
 	
 	\noindent\textbf{Definition 2.2.1:} 
 	For a family of function f:$[u]\rightarrow[v]$, it is defined as  a k-wise $\delta$-dependent iff
 		$$SD(X,Y)\le \delta$$
 	For $X= $ distribution $(f(x_1),f(x_2),...,f(x_k))$ for any distinct $x_1,x_2,...,x_k\in[u]$ and $Y=$ uniform distribution over $[v]^k$.
-	It will take $O(k\max\{\log u, \log v\})$ bits to describe f and $O(k)$ times to calculate f in the unit RAM model.\\
-
-	\noindent\textbf{Definition 2.2.2: }
+	It will take $O(k\max\{\log u, \log v\})$ bits to describe f and $O(k)$ times to calculate f in the unit RAM model.\\\\
+\textbf{Definition 2.2.2: }
 	A sequence of random variables $X_1,X_2,...,X_n$ over $\{0,1\}$ are $\epsilon$-biased distribution if, for any non-empty set $S\subseteq [n]$,
-	$$|Pr(\oplus_{i\in S} X_i = 1)-Pr(\oplus_{i\in S} X_i = 0)|\le \epsilon$$
+	$$|Pr(\oplus_{i\in S} X_i = 1)-Pr(\oplus_{i\in S} X_i = 0)|\le \epsilon$$\\
 	
-	\noindent Note that the following definitions will be used to understand and prove Definition 2.2.2, which is $\epsilon$-biased distribution. It's important to fully understand the definition and derivation of $\epsilon$-biased distribution because it is used in the proof of our construction. This $\epsilon$-biased distribution is based on the work did by Alon et al. included in the paper titled \textit{Simple Constructions of Almost k-wise Independent Random Variables}(Alon et al., 2002)\\
+Note that the following definitions will be used to understand Definition 2.2.2, which is $\epsilon$-biased distribution. It's important to fully understand the definition and derivation of $\epsilon$-biased distribution because it is used in the proof of our construction. This $\epsilon$-biased distribution is based on the work did by Alon et al. included in the paper titled \textit{Simple Constructions of Almost k-wise Independent Random Variables}(Alon et al., 2002)\\
 
 	\noindent\textbf{Almost k-wise independence:}
 	Let $S_n$ be a sample space and $X=\{x_1...x_n\}$ be selected uniformly from $S_n$
@@ -113,7 +112,7 @@
 	\item $S_n$ is \textbf{$\epsilon$-away (in $L_1$ form)} for $k$-wise independence if for any k positions $i_1<i_2<...<i_k$, we have
 		$$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon$$
 	\end{enumerate}
-	Clearly, we could transfer from these two definitions of almost k-wise independence:
+	\quad Clearly, we could transfer from these two definitions of almost k-wise independence:
 	\begin{enumerate}
 	\item $S_n$ is  \textbf{$(\epsilon,k)$-independent (in max form)}. Then, since there are at most $2^k$ different $\alpha$, we could state this equations:
 $$|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}|\le \epsilon \Rightarrow \sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le 2^k\epsilon$$
@@ -125,7 +124,7 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 		
 	\noindent\textbf{Linear Test:} Linear test refers to "linear Boolean tests" or test which take the \textbf{exclusive-or} of the bits in some fixed location in the strings. In particular, Linear test of size k means to perform linear boolean tests on k different select positions.\\
 
-	\noindent\textbf{Definition Set:} This set includes various definitions used to prove the existence of an $\epsilon$-biased distribution:
+	\noindent\textbf{Definition Set:} This set includes various definitions used to prove the existence of an useful $\epsilon$-biased distribution:
 	\begin{enumerate}
 	\item Let $(\alpha,\beta)_2$ denote the \textbf{inner-product-mod-2} of the binary string $\alpha=\alpha_1\alpha_2...\alpha_n$ and $\beta=\beta_1\beta_2...\beta_n$.
 	$$(\alpha,\beta)_2 =(\alpha_1\alpha_2...\alpha_n,\beta_1\beta_2...\beta_n)_2= (\sum_{i=1}^n \alpha_i\beta_i) \mod 2$$
@@ -134,7 +133,7 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	\item Let $S_n$ be a sample space and $X=x_1x_2...x_n$ be selected uniformly randomly from $S_n$. The sample space $S_n$ is said to be \textbf{$\epsilon$-biased} with respect to linear tests if, for every $\alpha=\alpha_1\alpha_2...\alpha_n\in\{0,1\}^n-\{0\}^n$, the random variable $(\alpha,X)_2$ is $\epsilon$-biased.
 	\item The sample space $S_n$ is said to be \textbf{$\epsilon$-biased} with respect to linear tests of size \textbf{at most k} if, for every $\alpha=\alpha_1\alpha_2...\alpha_n\in\{0,1\}^n-\{0\}^n$ such that \textbf{at most k of the $\alpha_i$ are 1}, the random variable $(\alpha,X)_2$ is $\epsilon$-biased.
 	\end{enumerate}
-	Notice that the definition of $\epsilon$-biased distribution and $\epsilon$-biased sample space are actually the same with respect to linear tests using XOR operation since we could treat:
+\quad	Notice that the definition of $\epsilon$-biased distribution and $\epsilon$-biased sample space are actually the same with respect to linear tests using XOR operation since we could treat:
 	\begin{enumerate}
 		\item $X_1,X_2,...,X_n$ in the definition of $\epsilon$-biased distribution as $x_1,x_2,...,x_n$ which is bits of random variable $X$ in the definition of $\epsilon$-biased sample
 		\item $S$  in the definition of $\epsilon$-biased distribution as $\alpha$ in the definition of $\epsilon$-biased sample space
@@ -142,21 +141,87 @@ $$\sum_{\alpha\in\{0,1\}^k}|Pr[x_{i_1}x_{i_2}...x_{i_k}]-2^{-k}| \le \epsilon \R
 	\end{enumerate}
 	
 	\subsection{2.3 - Theorems:}
-	In this section, we can present the key lemmas, corollaries, and theorems that we use to prove the construction. Refer to Section 2.1 and Section 2.2 if encountering unknown definitions. \\
+\quad	In this section, we can present the key lemmas, corollaries, and theorems that we use to prove the construction. Refer to Section 2.1 and Section 2.2 if encountering unknown definitions. We will first state that there exists a family of k-wise $\delta$-dependent function that meets our requirement about describe space and computation times. Then, by work did by Alon et all(2002), we will offer detail about this family of k-wise $\delta$-dependent functions and how we come up with its space and time requirement. After that, we will state a useful tail bound for limited independence based on work did by Bellare(1994). It will help us limit the probability that the sum of n 2k-wise $\delta$-dependent random variables diverges from its expectaion. This section introduce Lemma 2.2 of paper titled  \textit{Randomness Efficient Oblivious Sampling}.\\
+
+	First, we will use following family of k-wise $\delta$-dependent function:\\
+	\noindent\textbf{Corollary 2.3.1:} For any integers a and integer b such that b is a power of 2, there exists a family of k-wise $\delta$-dependent function $f$ that maps from [a] to [b], that is $f: [a] \rightarrow [b]$. This function can be described by $O(\log a + k\log b+ \log(1/\delta))$ bits. More importantly, in the RAM model, if a word size is $\Omega(\log a + k\log b+ \log(1/\delta))$, then this function can be evaluated in $O(\log a + k\log b+ \log(1/\delta))$ time. \\
+
+	To prove Corollary 2.3.1, we will need to state following fact:\\
+	\noindent\textbf{Fact 2.3.1:} For any k, an $\epsilon$-biased distribution is also k-wise $\delta$-dependent for $\delta=\epsilon2^{\frac k2}$\\
+
+	Now, we will need to understand this fact. It will be helpful with following theorem or corollary whose proof will be included in Appendix A.\\
+	\noindent\textbf{Lemma 2.3.1.1:} Let $S_n\subseteq{0,1}^n$ be a sample space that is $\epsilon-biased$ with respect to linear tests of size at most k. Then, the sample space $S_n$ is $((1-2^{-k})\epsilon,k)$-independent(in max form), and $(2^k-1)^{\frac12}\epsilon$-away(in $L_1$ norm) from k-wise independent.\\
+	\noindent\textbf{Corollary 2.3.1.1:} Let $S_n \in \{0, 1\}^n$ be a sample space that is $\epsilon$-biased with respect to linear tests. Then, for every k, the sample space $S_n$ is $((1-2^{-k})\epsilon, k)$-independent (in max norm), and $(2^k-1)^{1/2}\epsilon$-away  in ($L_1$ norm) from k-wise independence. \\
+
+	\noindent\textbf{Proof of Fact 2.3.1}
+	\begin{align*}
+	\text{For any $\epsilon$-biased distribution }&\Rightarrow (2^k-1)^{\frac12}\epsilon\text{-away}\qquad\text{by Lemma 2.3.1.1}\\
+	&\Rightarrow \sum_{\omega\in \Omega}| Pr(X = \omega) - \frac1{2^k}|\le (2^k-1)^{\frac12}\epsilon\le2^{\frac k2+1}\epsilon\\
+	&\Rightarrow \sum_{\omega\in \Omega}| Pr(X = \omega) - \frac1{2^k}|\le 2\delta\\
+	&\Rightarrow \frac12\sum_{\omega\in \Omega}| Pr(X = \omega) - \frac1{2^k}|\le \delta\\
+ 	&\Rightarrow SD(X,U)\le \delta, U=\text{Uniform Distribution over }[b]^k\\
+	&\Rightarrow k\text{-wise }\delta\text{-dependent }\\
+	\end{align*}
+	Thus, the fact 2.3.1 stands. $\hfill\blacksquare$ \\
+
+Now given the fact 2.3.1, we could transfer any $\epsilon$-biased distribution to a family of k-wise $\delta$-dependent functions. In the work completed by Alon et al(2002), they introduced following construction that forms a sample space that is nearly $\epsilon$-biased. We will introduce this construction below and show its connection with Lemma 2.3.1. Now, let $S^{2m}_n$ represents the sample space of $2^{2m}$ strings whose length is n.\\
+	\noindent\textbf{Construction(Alen et al, 2002)}
+	\begin{enumerate}
+	\item Let $m=\log\frac n \epsilon$ and $bin: GF(2^m)\rightarrow\{0,1\}^m$ be a one-to-one mapping function satisfies that $bin(0)=\{0\}^m$ and $bin(u+v)=bin(u)\oplus bin(v)$, which should be satisfied by the standard representation of $GF(2^m)$.
+	\item We have two elemnts $x,y$ that are used to calculate every string s in $S^{2m}n$. Let $s = s_1s_2...s_n$, then $$s_i = (bin(x^i),bin(y))_2\qquad i\in[n]$$ where $x^i$ is the ith power of x when considered as an element in $GF(2^m)$. This means $x^i$ will become $x^i \mod 2^m$ iff $x^i\ge 2^m$.
+	\end{enumerate}
+
+Regards to this construction, we have following claim:\\
+\noindent\textbf{Claim:} $S^{2m}_n$ specified above is $\frac{n-1}{2^m}$-biased with respect to linear tests. For any non-zero $\alpha$, the random variable $(\alpha,r)_2$ is $(n-1)2^{-m}$-biased when r is uniformly selected from $S^{2m}_n$.\\\\
+\noindent\textbf{Proof of Claim:}\\
+Let $r(x,y)=r_0(x,y)r_1(x,y)...r_n(x,y)$. Then, 
+\begin{align*}
+(\alpha,r(x,y))_2 &= \sum_{i=0}^{n-1}\alpha_ir_i(x,y) \mod 2\\
+&= \sum_{i=0}^{n-1}\alpha_i(bin(x^i),bin(y))_2 \mod 2\\
+&= \sum_{i=0}^{n-1}\alpha_i \sum_{j=0}^{n-1}bin(x^i)_jbin(y)_j \mod2 \mod 2\\
+&= \sum_{j=0}^{n-1}\sum_{i=0}^{n-1}\alpha_i bin(x^i)_jbin(y)_j \mod2 \mod 2\\
+&= \sum_{j=0}^{n-1}bin\left(\sum_{i=0}^{n-1}\alpha_i x^i \mod2 \right)_jbin(y)_j \mod 2\\
+\end{align*}
+Now, we define $p_\alpha(t) = \sum_{i=0}^{n-1}\alpha_i t^i$ as a function over $GF(2)$, and we could get:
+\begin{align*}
+(\alpha,r(x,y))_2 
+&= \sum_{j=0}^{n-1}bin\left(\sum_{i=0}^{n-1}\alpha_i x^i \mod2 \right)_jbin(y_j) \mod 2\\
+&= (bin(\sum_{i=0}^{n-1}\alpha_i x^i),bin(y))_2\\
+&= (bin(p_\alpha(x)), bin(y))_2
+\end{align*}
+When $x,y\in GF(2^m)$ are chosen uniformly, we fix x:
+\begin{enumerate}
+\item x is not a zero of $p_\alpha(x)$\\
+This means $p_\alpha(x)\ne 0$ and $bin(p_\alpha(x))\ne\{0\}^m$. Set $bin(p_\alpha(x))=p_1p_2...p_{m}$, then 
+$$(bin(p_\alpha(x)), bin(y))_2 = \sum_{j=0}^m p_jbin(y)_j \mod 2$$
+Then, we could state that $(bin(p_\alpha(x)), bin(y))_2$ is unbiased since y is uniformly selected from $GF(2^m)$
+\item x is a zero of $p_\alpha(x)$\\
+This means $p_\alpha(x)= 0$ and $bin(p_\alpha(x))=\{0\}^m$. Therefore,$$(bin(p_\alpha(x)), bin(y))_2 = 0 \qquad\text{for any y}\in GF(2^m)$$
+However, $p_\alpha(t)has at most n-1 zeros$ and $x\in GF(2^m)$. Thus, there are at most $\frac{n-1}{2^m}$ of all values of x such that this case happens. Thus, $S^{2m}_n$ is $\frac{n-1}{2^m}$ biased in this case.
+\end{enumerate}
+In conclude, $S^{2m}_n$ is $\frac{n-1}{2^m}$ biased overall.$\hfill\blacksquare$ \\
+
+Now we will elaborate the connection between the construction above and Lemma 2.3.1. We will show that this construction will meet the space and time requirement specified in Lemma 2.3.1\\
+\noindent\textbf{Connection to Lemma 2.3.1:}\\
+We set $m=O(\log \frac n \epsilon)$ where $\epsilon = \delta 2^{\frac{-k\log b}2}$, and for function $f: [a]\rightarrow[b]$, we set $n=a\log b$ which stands for $a$ blocks and each block has length $\log b$. Each block represents a single output in $[b]$. For space requirement, since this construction outputs $\{0,1\}^m$ bits, we will use $O(m)=O(\log \frac n \epsilon)$ bits to describe a function. For time requirement, we calculate the ith bit of output as $(bin(x^i),bin(y))_2$. This calculation will use also $O(m)=O(\log \frac n \epsilon)$ times. On the other hand:
+\begin{align*}
+O(\log \frac n \epsilon) &= O(\log \frac{a\log b}{\delta 2^{\frac{-k\log b}2}})\\
+&= O(\log a + \log\log b+\log(\frac1\delta)+\frac{k \log b}2)\\
+&= O(\log a + k \log b+ \log(\frac1\delta))\\
+\end{align*}
+Thus, we could derive the space and time requirement mentioned in Lemma 2.3.1.$\hfill\blacksquare$ \\
+
+ Now, after proved Lemma 2.3.1, we will state a bound for random variables with limited independence. We first state following Lemma.\\
+\noindent\textbf{Lemma 2.3.2:} Define n random variables, $X_1$, ..., $X_n$ $\in \{0, 1\}$ be 2k-wise $\delta$-dependent random variables, for some $k \in \mathbb{N}$ and for some $0 \le \delta < 1$. We represent $X = \sum_{i \in n} X_i$  and $\mu = E[X]$. Then for any $t > 0$, we have that:
+	$$ Pr[|X - \mu| > t] \le 2(\frac{2nk}{t^2})^k + \delta(\frac{n}{t})^{2k} $$\\
 	
-	\noindent\textbf{Corollary 2.3.1 (Vazirani):} Let $S_n \in \{0, 1\}^n$ be a sample space that is $\epsilon$-biased with respect to linear tests. Then, we have for every k, the sample space $S_n$ is $((1-2^{-k})\epsilon, k)$-independent (in max norm), and $(2^k-1)^{1/2}\epsilon$-away  in ($L_1$ norm) from k-wise independence. \\
-	
-	\noindent\textbf{Corollary 2.3.2:} For any integers a and integer b such that b is a power of 2, there exists a family of k-wise $\delta$-dependent function $f$ that maps from [a] to [b], that is $f: [a] \rightarrow [b]$. This function can be described by $O(loga + klogb+ log(1/\delta))$ bits. More importantly, in the RAM model, if a word size is $O(loga + klogb+ log(1/\delta))$, then this function can be evaluated in $O(loga + klogb+ log(1/\delta))$ time. \\
-	
-	\noindent\textbf{Proof for Corollary 2.3.2:}
-	According to Alon et al.'s paper, he has constructed an $\epsilon$-biased distribution over the space $\{0, 1\}^n$ where we can describe each point $x \in \{0, 1\}^n$ in the sample space by using $O(log(n/\epsilon))$ bits. More importantly, in the RAM model, each word of word size $O(log(n/\epsilon))$ can be computed in time $O(log(n/\epsilon))$. Using the fact that for any k, an $\epsilon$-biased distribution is a k-wise $\delta$-dependent distribution with $\delta = \epsilon 2^{k/2}$ by Corollary 2.0 (Vazirani). We can substitute the word size to be $O(loga + klogb+ log(1/\delta))$, hence, we have proven the Corollary 2.3.2.  $\qquad$ $\hfill\blacksquare$ \\
-	
+To prove Lemma 2.3.2, we will need a theorem conducted by Bellare(1994). It is named as the First t-wise Independent Tail Inequality in the original paper and labeled as Lemma 2.3.3 here. We will provide proof for Lemma 2.3.3 in the Appendix B since it's not quite related to the topic.
+
 	\noindent\textbf{Lemma 2.3.3 (First t-wise Independent Tail Inequality):} Let $t \ge 4$ be an even integer, Suppose $X_1, ..., X_n$ are t-wise independent random variables taking values in [0, 1]. Let $X = \sum_{i \in n} X_i$ and $\mu = E[x]$, then we have for A > 0,
 	$$Pr[|X-\mu| \ge A] \le C_t (\frac{nt}{A^2})^{t/2}$$
+
 	
-	\noindent\textbf{Lemma 2.3.4:} Define n random variables, $X_1$, ..., $X_n$ $\in \{0, 1\}$ be 2k-wise $\delta$-dependent random variables, for some $k \in \mathbb{N}$ and for some $0 \le \delta < 1$. We represent $X = \sum_{i \in n} X_i$  and $\mu = E[X]$. Then for any $t > 0$, we have that:
-	$$ Pr[|X - \mu| > t] \le 2(\frac{2nk}{t^2})^k + \delta(\frac{n}{t})^{2k} $$
-	 \noindent\textbf{Proof for Lemma 2.3.4:} Apply Markov's Inequality, we obtain that
+	 \noindent\textbf{Proof for Lemma 2.3.2:} Apply Markov's Inequality, we obtain that
 	 \begin{align*}
 	 	Pr\left[|X - \mu| > t\right]  &\le Pr\left[\left(X - \mu\right)^{2k} > t^{2k}\right]\\
 	 	& \le \frac{E[(X-\mu)^{2k}]}{t^{2k}}
@@ -373,6 +438,9 @@ Since we have proven Theorem 3.1, it implies that with high probability at least
 	 \subsection{4.2 - Acknowledge} 
 	 This construction is from the paper, titled \textit{Ball and bins: smaller hash families and faster evaluation}. This paper was written to fully understand the construction presented in Section 1.1. This construction was the study results of L. Elisa Celis, Omer Reingold, Gil Segev, and Udi Wieder. 	
 	 
+	\subsection{Appendix A - Proof of Lemma 2.3.1.1}
+
+	\subsection{Appendix B - Proof of Lemma 2.3.3} 
 	\newpage
 	\section{5. $\qquad$ References}
 \begin{align*}
